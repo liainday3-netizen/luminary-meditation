@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMINARY — Quantum Hermeticism V2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@300;400&family=Cinzel:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=IM+Fell+English+SC&display=swap');
+
+:root {
+  --void: #010206;
+  --abyss: #04060e;
+  --deep: #070d1c;
+  --surface: #0c1428;
+  --raised: #111e36;
+  --gold: #c9a84c;
+  --gold-l: #f0cc60;
+  --gold-xl: #fde87a;
+  --gold-d: #7a5520;
+  --gold-dim: rgba(201,168,76,0.08);
+  --violet: #6d28d9;
+  --violet-l: #9d6fff;
+  --violet-xl: #c4b5fd;
+  --cyan: #00d4ff;
+  --cyan-d: #0090b8;
+  --emerald: #00e87a;
+  --rose: #ff4d6d;
+  --amber: #ffb830;
+  --teal: #2dd4bf;
+  --text: #ede8e0;
+  --text-2: rgba(237,232,224,0.65);
+  --text-3: rgba(237,232,224,0.35);
+  --border: rgba(201,168,76,0.1);
+  --border-h: rgba(201,168,76,0.35);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { background: var(--void); color: var(--text); font-family: 'Cormorant Garamond', serif; overflow-x: hidden; }
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); }
+
+/* ── PARTICLE FIELD ── */
+#field { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* ── NAV ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 52px;
+  background: rgba(1,2,6,0.7);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  transition: padding 0.3s;
+}
+.nav-logo {
+  font-family: 'Cinzel Decorative', serif; font-size: 0.9rem;
+  letter-spacing: 0.22em; color: var(--gold-xl);
+  text-shadow: 0 0 30px rgba(201,168,76,0.5);
+}
+.nav-r { display: flex; gap: 28px; align-items: center; }
+.nav-r a {
+  font-family: 'Cinzel', serif; font-size: 0.54rem; letter-spacing: 0.22em;
+  color: var(--text-3); text-decoration: none; transition: color 0.25s;
+}
+.nav-r a:hover { color: var(--gold); }
+.nav-cta {
+  background: linear-gradient(135deg, var(--gold), var(--gold-d)) !important;
+  color: var(--void) !important; padding: 8px 20px; border-radius: 40px;
+  font-weight: 600 !important; font-size: 0.56rem !important;
+  box-shadow: 0 0 20px rgba(201,168,76,0.2);
+  transition: box-shadow 0.3s, transform 0.2s !important;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 28px rgba(201,168,76,0.4) !important; }
+
+/* ── HERO ── */
+#hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 80px;
+}
+.hero-pre {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(201,168,76,0.2); border-radius: 40px;
+  padding: 5px 16px; margin-bottom: 28px;
+  font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.28em; color: var(--gold);
+  background: rgba(201,168,76,0.04);
+  animation: fadeIn 1s ease both;
+}
+.hero-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--emerald); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0.2} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
+
+.hero-sigil {
+  font-size: clamp(4rem, 10vw, 8rem);
+  filter: drop-shadow(0 0 50px rgba(201,168,76,0.55)) drop-shadow(0 0 100px rgba(124,58,237,0.2));
+  animation: sigil-float 8s ease-in-out infinite, fadeIn 1s 0.1s ease both;
+  margin-bottom: 18px; display: block;
+}
+@keyframes sigil-float { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-16px) rotate(1deg)} }
+
+.hero-title {
+  font-family: 'Cinzel Decorative', serif; font-weight: 300;
+  font-size: clamp(2.2rem, 7vw, 5.8rem); line-height: 1.06;
+  color: var(--gold-l);
+  text-shadow: 0 0 100px rgba(201,168,76,0.35), 0 0 200px rgba(201,168,76,0.12);
+  margin-bottom: 8px;
+  animation: fadeIn 1s 0.2s ease both;
+}
+.hero-sub-title {
+  font-family: 'Cinzel', serif; font-weight: 300;
+  font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 0.18em;
+  color: var(--text-3); margin-bottom: 28px;
+  animation: fadeIn 1s 0.3s ease both;
+}
+.hero-quote {
+  font-family: 'IM Fell English SC', serif;
+  font-size: clamp(0.88rem, 1.5vw, 1.05rem);
+  color: rgba(201,168,76,0.55); max-width: 520px; margin: 0 auto 44px;
+  line-height: 1.8; font-style: italic;
+  border-left: 1px solid rgba(201,168,76,0.25); padding-left: 18px; text-align: left;
+  animation: fadeIn 1s 0.4s ease both;
+}
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; animation: fadeIn 1s 0.5s ease both; }
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-d));
+  color: var(--void); border: none; padding: 14px 32px; border-radius: 50px;
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.16em;
+  cursor: pointer; box-shadow: 0 4px 24px rgba(201,168,76,0.28);
+  transition: all 0.3s;
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(201,168,76,0.45); }
+.btn-ghost {
+  background: transparent; color: var(--violet-xl);
+  border: 1px solid rgba(109,40,217,0.4); padding: 14px 32px; border-radius: 50px;
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.16em;
+  cursor: pointer; transition: all 0.3s;
+}
+.btn-ghost:hover { background: rgba(109,40,217,0.1); border-color: rgba(109,40,217,0.7); }
+
+/* ── TICKER ── */
+.ticker {
+  position: relative; z-index: 1;
+  overflow: hidden; padding: 10px 0;
+  background: rgba(109,40,217,0.04);
+  border-top: 1px solid rgba(109,40,217,0.12);
+  border-bottom: 1px solid rgba(109,40,217,0.12);
+}
+.ticker-t { display: flex; gap: 52px; white-space: nowrap; animation: tick 45s linear infinite; }
+.ticker-i { font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.22em; color: var(--violet-xl); opacity: 0.55; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── SECTION ── */
+section { position: relative; z-index: 1; padding: 96px 24px; }
+.s-center { text-align: center; max-width: 720px; margin: 0 auto; }
+.s-eye {
+  font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.38em;
+  color: var(--gold); opacity: 0.65; margin-bottom: 12px; display: block;
+}
+.s-h2 {
+  font-family: 'Cinzel', serif; font-weight: 300;
+  font-size: clamp(1.6rem, 3.8vw, 2.8rem); color: var(--gold-l);
+  letter-spacing: 0.07em; margin-bottom: 14px; line-height: 1.2;
+}
+.s-p { font-family: 'IM Fell English SC', serif; font-style: italic; font-size: 1rem; color: var(--text-2); line-height: 1.82; }
+
+/* ── 7 PRINCIPLES ── */
+#principles { padding: 80px 24px 0; }
+.p-intro { text-align: center; max-width: 680px; margin: 0 auto 64px; }
+
+.principle-viewer {
+  max-width: 1160px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+  min-height: 560px;
+  box-shadow: 0 0 80px rgba(0,0,0,0.5);
+}
+
+/* Left: selector column */
+.p-selector {
+  background: var(--abyss);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+}
+.p-btn {
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: pointer; border: none; background: transparent;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  transition: background 0.25s, border-color 0.25s;
+  text-align: left; position: relative; overflow: hidden;
+}
+.p-btn::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--p-accent, var(--gold));
+  opacity: 0; transition: opacity 0.25s;
+}
+.p-btn:hover { background: rgba(255,255,255,0.02); }
+.p-btn.on { background: rgba(201,168,76,0.05); }
+.p-btn.on::before { opacity: 1; }
+.p-btn-num {
+  font-family: 'Cinzel Decorative', serif; font-size: 1.3rem;
+  color: var(--p-accent, var(--gold)); opacity: 0.25;
+  flex-shrink: 0; width: 32px; line-height: 1;
+}
+.p-btn.on .p-btn-num { opacity: 0.7; }
+.p-btn-info { flex: 1; }
+.p-btn-name {
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.12em;
+  color: var(--text-3); margin-bottom: 3px; transition: color 0.25s;
+}
+.p-btn.on .p-btn-name { color: var(--p-accent, var(--gold)); }
+.p-btn-latin {
+  font-family: 'IM Fell English SC', serif; font-size: 0.72rem;
+  font-style: italic; color: var(--text-3); line-height: 1.35;
+}
+.p-btn-hz {
+  font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.12em;
+  color: var(--cyan); opacity: 0.6; flex-shrink: 0;
+}
+
+/* Right: display panel */
+.p-display {
+  background: var(--deep);
+  display: flex; flex-direction: column;
+}
+.p-canvas-wrap {
+  position: relative; flex: 0 0 auto;
+  background: var(--void);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; height: 300px;
+}
+#p-canvas { display: block; border-radius: 50%; box-shadow: 0 0 60px rgba(0,0,0,0.8); }
+.p-canvas-info {
+  position: absolute; bottom: 14px; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+}
+.p-canvas-hz { font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: 0.14em; color: var(--cyan); }
+.p-canvas-geo { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.1em; color: var(--gold); opacity: 0.7; }
+.p-play-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.35);
+  background: rgba(201,168,76,0.06);
+  color: var(--gold-l); font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+}
+.p-play-btn:hover { background: rgba(201,168,76,0.14); box-shadow: 0 0 18px rgba(201,168,76,0.25); }
+.p-play-btn.on { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 18px rgba(0,212,255,0.25); }
+
+.p-text { flex: 1; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+.p-tabs { display: flex; gap: 6px; }
+.p-tab {
+  font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.14em;
+  padding: 5px 12px; border-radius: 20px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.08); color: var(--text-3);
+  background: transparent; transition: all 0.22s;
+}
+.p-tab.on { border-color: var(--p-accent, var(--gold)); color: var(--p-accent, var(--gold)); background: rgba(201,168,76,0.06); }
+.p-content {
+  font-family: 'IM Fell English SC', serif; font-style: italic;
+  font-size: 0.93rem; color: var(--text-2); line-height: 1.78;
+  transition: opacity 0.3s;
+}
+.p-practice-note {
+  font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.1em;
+  color: var(--gold); opacity: 0.6; padding: 10px 14px;
+  background: rgba(201,168,76,0.04); border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 8px; display: none;
+}
+.p-practice-note.show { display: block; }
+
+@media(max-width:800px){
+  .principle-viewer{grid-template-columns:1fr;}
+  .p-selector{border-right:none;border-bottom:1px solid var(--border);}
+  .p-canvas-wrap{height:240px;}
+}
+@media(max-width:540px){#nav{padding:13px 18px;}.nav-r a:not(.nav-cta){display:none;}}
+
+/* ── ORACLE ── */
+#oracle { background: rgba(4,2,10,0.8); }
+.oracle-shell {
+  max-width: 1000px; margin: 56px auto 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; border: 1px solid rgba(109,40,217,0.25);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 0 100px rgba(109,40,217,0.08);
+}
+.oracle-geo { background: var(--void); display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 380px; }
+#oracle-c { border-radius: 50%; box-shadow: 0 0 60px rgba(109,40,217,0.2); display: block; }
+.oracle-panel { padding: 36px 32px; background: rgba(7,13,28,0.95); display: flex; flex-direction: column; justify-content: center; }
+.oracle-title { font-family: 'Cinzel Decorative', serif; font-size: 1.1rem; color: var(--violet-xl); margin-bottom: 5px; }
+.oracle-sub { font-family: 'IM Fell English SC', serif; font-style: italic; color: var(--text-3); margin-bottom: 22px; font-size: 0.88rem; }
+.oracle-q { font-family: 'IM Fell English SC', serif; font-style: italic; font-size: 1.1rem; color: var(--gold-l); line-height: 1.72; min-height: 2.8em; margin-bottom: 8px; transition: opacity 0.4s; }
+.oracle-a { font-size: 0.88rem; color: var(--text-2); font-style: italic; line-height: 1.75; min-height: 5.5em; margin-bottom: 16px; transition: opacity 0.4s; }
+.oracle-prin { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.2em; color: var(--violet-l); margin-bottom: 22px; }
+.oracle-btn {
+  background: linear-gradient(135deg, var(--violet), #3b1280);
+  border: none; padding: 12px 28px; border-radius: 50px;
+  color: var(--text); font-family: 'Cinzel', serif; font-size: 0.58rem;
+  letter-spacing: 0.14em; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(109,40,217,0.3);
+  transition: all 0.3s; align-self: flex-start;
+}
+.oracle-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(109,40,217,0.5); }
+@media(max-width:680px){.oracle-shell{grid-template-columns:1fr;}.oracle-geo{min-height:260px;}}
+
+/* ── BRIDGE ── */
+.bridge-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px; max-width: 960px; margin: 56px auto 0;
+}
+.bridge-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px; transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+.bridge-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--bc, var(--gold)), transparent);
+}
+.bridge-card:hover { border-color: var(--border-h); transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+.bridge-icon { font-size: 1.7rem; margin-bottom: 9px; }
+.bridge-title { font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.13em; color: var(--bc, var(--gold)); margin-bottom: 7px; }
+.bridge-body { font-size: 0.86rem; color: var(--text-2); font-style: italic; line-height: 1.65; }
+
+/* ── QUOTES ── */
+.quotes-wrap { max-width: 740px; margin: 58px auto 0; }
+.quote-item {
+  padding: 28px 0; border-bottom: 1px solid rgba(201,168,76,0.07);
+  display: grid; grid-template-columns: 38px 1fr; gap: 18px; align-items: start;
+}
+.q-orn { font-size: 2.8rem; color: var(--gold); opacity: 0.18; line-height: 1; font-family: 'IM Fell English SC', serif; }
+.q-txt { font-family: 'IM Fell English SC', serif; font-style: italic; font-size: clamp(0.96rem, 1.9vw, 1.15rem); color: var(--text); line-height: 1.82; margin-bottom: 7px; }
+.q-src { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.2em; color: var(--gold); opacity: 0.55; }
+.q-com { font-size: 0.83rem; color: var(--text-3); font-style: italic; line-height: 1.65; margin-top: 6px; }
+
+/* ── TOOLS ── */
+.tools-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; max-width: 1060px; margin: 58px auto 0;
+}
+.tool-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px 20px; transition: all 0.3s;
+  cursor: pointer; position: relative; overflow: hidden;
+}
+.tool-card::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tc, var(--gold)), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.tool-card:hover { border-color: var(--border-h); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+.tool-card:hover::before { opacity: 1; }
+.tool-badge {
+  position: absolute; top: 11px; right: 11px;
+  font-family: 'Cinzel', serif; font-size: 0.44rem; letter-spacing: 0.12em;
+  padding: 2px 8px; border-radius: 20px;
+}
+.b-free { background: rgba(0,232,122,0.08); color: var(--emerald); border: 1px solid rgba(0,232,122,0.2); }
+.b-init { background: rgba(0,212,255,0.08); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
+.b-adept { background: rgba(109,40,217,0.1); color: var(--violet-l); border: 1px solid rgba(109,40,217,0.28); }
+.b-master { background: rgba(255,184,48,0.08); color: var(--amber); border: 1px solid rgba(255,184,48,0.22); }
+.tool-sig { font-size: 1.75rem; margin-bottom: 8px; }
+.tool-name { font-family: 'Cinzel', serif; font-size: 0.63rem; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 3px; }
+.tool-prin { font-family: 'Cinzel', serif; font-size: 0.48rem; letter-spacing: 0.1em; color: var(--violet-l); margin-bottom: 8px; }
+.tool-desc { font-size: 0.85rem; color: var(--text-2); font-style: italic; line-height: 1.58; }
+.tool-act {
+  display: inline-flex; align-items: center; gap: 4px; margin-top: 11px;
+  font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: 0.12em;
+  color: var(--gold); border: 1px solid rgba(201,168,76,0.18);
+  padding: 5px 12px; border-radius: 26px; transition: all 0.22s;
+}
+.tool-card:hover .tool-act { background: var(--gold-dim); border-color: var(--gold); }
+
+/* ── CTA ── */
+.cta-block {
+  position: relative; z-index: 1;
+  margin: 0 28px 72px;
+  border-radius: 20px; padding: 64px 40px;
+  background: linear-gradient(145deg, rgba(109,40,217,0.2), rgba(7,13,28,0.95), rgba(1,2,6,0.98));
+  border: 1px solid rgba(109,40,217,0.18);
+  text-align: center;
+  overflow: hidden;
+}
+.cta-block::before {
+  content: ''; position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 80px;
+  background: radial-gradient(ellipse, rgba(109,40,217,0.3), transparent 70%);
+  pointer-events: none;
+}
+.cta-block h2 { font-family: 'Cinzel Decorative', serif; font-weight: 300; font-size: clamp(1.4rem, 3.5vw, 2.4rem); color: var(--gold-l); margin-bottom: 10px; }
+.cta-block p { font-family: 'IM Fell English SC', serif; font-style: italic; color: var(--text-2); max-width: 460px; margin: 0 auto 28px; line-height: 1.75; }
+
+/* ── MODAL ── */
+.modal-bg { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(1,2,6,0.95); backdrop-filter: blur(14px); align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal-box { background: var(--surface); border: 1px solid rgba(201,168,76,0.22); border-radius: 20px; padding: 42px; max-width: 400px; width: 90%; text-align: center; position: relative; }
+.modal-x { position: absolute; top: 13px; right: 16px; background: none; border: none; color: var(--text-3); font-size: 1.3rem; cursor: pointer; }
+.modal-box h2 { font-family: 'Cinzel', serif; font-weight: 300; font-size: 1.25rem; color: var(--gold-l); margin-bottom: 5px; }
+.modal-box p { font-style: italic; color: var(--text-2); line-height: 1.6; margin-bottom: 22px; font-size: 0.9rem; }
+.modal-box input { width: 100%; background: rgba(7,13,28,0.8); border: 1px solid var(--border); border-radius: 9px; padding: 12px 15px; color: var(--text); font-family: 'Cormorant Garamond', serif; font-size: 1rem; outline: none; margin-bottom: 9px; transition: border-color 0.2s; }
+.modal-box input:focus { border-color: var(--gold); }
+.modal-sub { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--gold), var(--gold-d)); border: none; border-radius: 50px; color: var(--void); font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: 0.13em; cursor: pointer; transition: opacity 0.2s; }
+.modal-sub:hover { opacity: 0.9; }
+
+/* FOOTER */
+footer { position: relative; z-index: 1; padding: 30px 44px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.f-logo { font-family: 'Cinzel Decorative', serif; font-size: 0.85rem; color: var(--gold); }
+.f-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.f-links a { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: 0.16em; color: var(--text-3); text-decoration: none; transition: color 0.2s; }
+.f-links a:hover { color: var(--gold); }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s; }
+.reveal.vis { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<canvas id="field"></canvas>
+
+<nav id="nav">
+  <div class="nav-logo">✦ LUMINARY</div>
+  <div class="nav-r">
+    <a href="#principles">7 Laws</a>
+    <a href="#oracle">Oracle</a>
+    <a href="#bridge">Quantum</a>
+    <a href="#tools">Tools</a>
+    <a href="#" class="nav-cta" onclick="openModal(event)">Begin Free ✦</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-pre"><div class="hero-dot"></div>QUANTUM HERMETICISM — SACRED GEOMETRY — HEALING FREQUENCIES</div>
+  <span class="hero-sigil">☿</span>
+  <h1 class="hero-title">THE HERMETIC<br>QUANTUM FIELD</h1>
+  <div class="hero-sub-title">Seven Laws · Seven Geometries · Seven Frequencies</div>
+  <blockquote class="hero-quote">
+    "What is Below corresponds to what is Above, and what is Above corresponds to what is Below,
+    to accomplish the miracle of the One Thing."<br><br>
+    — The Emerald Tablet of Hermes Trismegistus
+  </blockquote>
+  <div class="hero-btns">
+    <button class="btn-gold" onclick="openModal(event)">ENTER THE HERMETIC PORTAL ✦</button>
+    <button class="btn-ghost" onclick="document.getElementById('principles').scrollIntoView()">EXPLORE THE 7 LAWS ↓</button>
+  </div>
+</section>
+
+<div class="ticker"><div class="ticker-t" id="ticker"></div></div>
+
+<section id="principles">
+  <div class="p-intro reveal">
+    <span class="s-eye">✦ THE KYBALION — SEVEN HERMETIC PRINCIPLES ✦</span>
+    <h2 class="s-h2">Seven Laws of the Universe</h2>
+    <p class="s-p">Select any principle to see its living sacred geometry. Switch between the Hermetic teaching, its quantum equivalent, and the activation practice. Press ▶ to hear the healing frequency.</p>
+  </div>
+  <div class="principle-viewer reveal" id="pviewer">
+    <div class="p-selector" id="pselector"></div>
+    <div class="p-display">
+      <div class="p-canvas-wrap">
+        <canvas id="p-canvas" width="260" height="260"></canvas>
+        <div class="p-canvas-info">
+          <div>
+            <div class="p-canvas-hz" id="p-hz">963 Hz</div>
+            <div class="p-canvas-geo" id="p-geo">METATRON'S CUBE</div>
+          </div>
+          <button class="p-play-btn" id="p-play" onclick="togglePrincipalTone()">▶</button>
+        </div>
+      </div>
+      <div class="p-text">
+        <div class="p-tabs" id="p-tabs">
+          <button class="p-tab on" onclick="switchTab('herm',this)">HERMETIC</button>
+          <button class="p-tab" onclick="switchTab('quant',this)">QUANTUM</button>
+          <button class="p-tab" onclick="switchTab('prac',this)">PRACTICE</button>
+        </div>
+        <div class="p-content" id="p-content"></div>
+        <div class="p-practice-note" id="p-pnote">✦ Press ▶ above to activate the healing frequency while practising.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="oracle">
+  <div class="s-center reveal">
+    <span class="s-eye">✦ THE HERMETIC ORACLE ✦</span>
+    <h2 class="s-h2">Consult the Living Wisdom</h2>
+    <p class="s-p">Each consultation reveals one of the seven principles alongside its geometry and frequency. A different teaching each time.</p>
+  </div>
+  <div class="oracle-shell reveal">
+    <div class="oracle-geo">
+      <canvas id="oracle-c" width="300" height="300"></canvas>
+    </div>
+    <div class="oracle-panel">
+      <div class="oracle-title">☿ THE HERMETIC ORACLE</div>
+      <p class="oracle-sub">Press to receive wisdom from the seven principles</p>
+      <div class="oracle-q" id="oq">What teaching does the universe offer you now?</div>
+      <div class="oracle-a" id="oa">The Oracle awaits your readiness. Sit quietly. Breathe. Then press.</div>
+      <div class="oracle-prin" id="op">✦ AWAITING ACTIVATION ✦</div>
+      <button class="oracle-btn" onclick="consult()">✦ CONSULT THE ORACLE ✦</button>
+    </div>
+  </div>
+</section>
+
+<section id="bridge" style="background:rgba(4,2,12,0.6);">
+  <div class="s-center reveal">
+    <span class="s-eye">✦ THE QUANTUM HERMETIC BRIDGE ✦</span>
+    <h2 class="s-h2">Ancient Wisdom Meets Modern Physics</h2>
+    <p class="s-p">Quantum mechanics did not replace the Hermetic worldview — it confirmed it. The observer effect, entanglement, and non-locality are the same phenomena the Hermetic texts described three millennia earlier.</p>
+  </div>
+  <div class="bridge-grid reveal" id="bgrid"></div>
+</section>
+
+<section style="background:rgba(4,2,10,0.7);">
+  <div class="s-center reveal">
+    <span class="s-eye">✦ FROM THE KYBALION ✦</span>
+    <h2 class="s-h2">The Living Teachings</h2>
+    <p class="s-p">Read in silence, with the accompanying frequency playing.</p>
+  </div>
+  <div class="quotes-wrap reveal" id="quotes"></div>
+</section>
+
+<section id="tools" style="background:rgba(3,2,8,0.7);">
+  <div class="s-center reveal">
+    <span class="s-eye">✦ QUANTUM HERMETIC ACTIVATION TOOLS ✦</span>
+    <h2 class="s-h2">14 Tools of Hermetic Activation</h2>
+    <p class="s-p">Each tool pairs a Hermetic principle with its quantum equivalent, sacred geometry, and healing frequency. Activation occurs at their intersection.</p>
+  </div>
+  <div class="tools-grid reveal" id="tgrid"></div>
+</section>
+
+<div class="cta-block reveal">
+  <h2>The Hermetic Path Awaits</h2>
+  <p>"When the student is ready, the Master appears." The seven laws are already operating in your life — now learn to work with them consciously.</p>
+  <div class="hero-btns">
+    <button class="btn-gold" onclick="openModal(event)">BEGIN YOUR INITIATION — FREE ✦</button>
+    <button class="btn-ghost">VIEW ALL PREMIUM TIERS</button>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">✦ LUMINARY</div>
+  <div class="f-links">
+    <a href="sacred-meditation.html">Meditation App</a>
+    <a href="luminary-premium.html">Full Platform</a>
+    <a href="landing.html">Pricing</a>
+    <a href="admin.html">Admin</a>
+  </div>
+</footer>
+
+<div class="modal-bg" id="modal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div style="font-size:2.2rem;margin-bottom:9px;">☿</div>
+    <h2>Enter the Hermetic Portal</h2>
+    <p>Begin your Quantum Hermetic initiation. Free forever tier included.</p>
+    <input type="text" id="mn" placeholder="Your name">
+    <input type="email" id="me" placeholder="Your email address">
+    <button class="modal-sub" onclick="submitModal()">ACTIVATE INITIATION ✦</button>
+  </div>
+</div>
+
+<script>
+// ── PARTICLE FIELD ──
+(()=>{
+  const c=document.getElementById('field'),x=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;pts=[];
+    for(let i=0;i<120;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15,r:Math.random()*1.2+.2,a:Math.random()*.5+.1,hue:Math.random()>0.8?270:45});}
+  function draw(){
+    x.clearRect(0,0,W,H);
+    const bg=x.createRadialGradient(W/2,H*.3,0,W/2,H*.6,H);
+    bg.addColorStop(0,'#09051e');bg.addColorStop(.4,'#04060f');bg.addColorStop(1,'#010206');
+    x.fillStyle=bg;x.fillRect(0,0,W,H);
+    pts.forEach((p,i)=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle=`hsla(${p.hue},70%,70%,${p.a})`;x.fill();
+      pts.slice(i+1).forEach(q=>{
+        const d=Math.hypot(p.x-q.x,p.y-q.y);
+        if(d<120){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);
+          x.strokeStyle=`rgba(201,168,76,${0.04*(1-d/120)})`;x.lineWidth=.5;x.stroke();}
+      });
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize',resize);resize();draw();
+})();
+
+// ── TICKER ──
+const tw=['Principle of Mentalism','As Above So Below','The Kybalion','Quantum Entanglement','Wave Function Collapse','Principle of Vibration','Hermes Trismegistus','The Observer Effect','Principle of Polarity','Non-Locality','The Emerald Tablet','Quantum Superposition','Principle of Rhythm','Zero Point Field','The All is Mind','Sacred Geometry','Metatron\'s Cube','Flower of Life','Sri Yantra'];
+const ti=document.getElementById('ticker');
+ti.innerHTML=[...tw,...tw,...tw,...tw].map(w=>`<span class="ticker-i">✦ ${w.toUpperCase()}</span>`).join('');
+
+// ── GEOMETRY ENGINE ──
+function hx(hex){const r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255,max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;if(!d)return 0;let h=max===r?((g-b)/d)%6:max===g?(b-r)/d+2:(r-g)/d+4;return(h*60+360)%360;}
+function polar(cx,cy,r,a){return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+function circ(ctx,x,y,r,col,lw,dash){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);if(dash)ctx.setLineDash(dash);else ctx.setLineDash([]);ctx.strokeStyle=col;ctx.lineWidth=lw||1;ctx.stroke();ctx.setLineDash([]);}
+function ln(ctx,x1,y1,x2,y2,col,lw){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.strokeStyle=col;ctx.lineWidth=lw||1;ctx.stroke();}
+function glw(ctx,cx,cy,r,h,a){const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,`hsla(${h},90%,80%,${a})`);g.addColorStop(1,`hsla(${h},90%,80%,0)`);ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();}
+
+function drawGeo(ctx,name,t,W,H,acHex){
+  const cx=W/2,cy=H/2,R=W*.42,h=hx(acHex),p=1+.025*Math.sin(t*.5);
+  ctx.clearRect(0,0,W,H);
+  const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,W*.52);
+  bg.addColorStop(0,'rgba(8,12,28,.98)');bg.addColorStop(1,'rgba(1,2,6,.99)');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+
+  if(name==='metatron'){
+    const r=t*.055,pts6=Array.from({length:6},(_,i)=>polar(cx,cy,R*p,i*Math.PI/3+r));
+    const pts6b=Array.from({length:6},(_,i)=>polar(cx,cy,R*p*.866*2*.5,i*Math.PI/3+Math.PI/6+r));
+    const all=[{x:cx,y:cy},...pts6.map(q=>({x:q[0],y:q[1]})),...pts6b.map(q=>({x:q[0],y:q[1]}))];
+    all.forEach(q=>circ(ctx,q.x,q.y,R*p*.44,`hsla(${h},70%,65%,.18)`,1.2));
+    for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++)ln(ctx,all[i].x,all[i].y,all[j].x,all[j].y,`hsla(${h},80%,70%,.06)`,0.6);
+    for(let s=0;s<2;s++){ctx.beginPath();for(let i=0;i<3;i++){const[px,py]=polar(cx,cy,R*p*.9,i*Math.PI*2/3+s*Math.PI/3+t*.07);i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.closePath();ctx.strokeStyle=`hsla(${h+s*45},82%,72%,${.55+.2*Math.sin(t*.8)})`;ctx.lineWidth=1.6;ctx.stroke();}
+    glw(ctx,cx,cy,R*.3,h,.55);
+  } else if(name==='flower'){
+    const r=t*.04;circ(ctx,cx,cy,R*p,`hsla(${h},75%,65%,.4)`,1.5);
+    for(let i=0;i<6;i++){const[px,py]=polar(cx,cy,R*p,i*Math.PI/3+r);circ(ctx,px,py,R*p,`hsla(${h+i*8},70%,65%,.22)`,1.2);}
+    for(let i=0;i<12;i++){const[px,py]=polar(cx,cy,R*p*1.73,i*Math.PI/6+r);circ(ctx,px,py,R*p,`hsla(${h+i*5},60%,60%,.09)`,0.7);}
+    circ(ctx,cx,cy,R*p*2,`hsla(${h},55%,55%,.18)`,1,[5,3]);
+    glw(ctx,cx,cy,R*.32,h,.48);
+  } else if(name==='torus'){
+    for(let i=0;i<44;i++){const phi=(i/44)*Math.PI*2+t*.28,ox=cx+R*p*Math.cos(phi)*.62,oy=cy+R*p*Math.sin(phi)*.38,rr=R*.44*p*(.68+.32*Math.cos(phi));circ(ctx,ox,oy,rr,`hsla(${h+i*3},75%,65%,${.05+.04*Math.abs(Math.cos(phi))})`,0.9);}
+    for(let j=0;j<22;j++){ctx.beginPath();const t0=(j/22)*Math.PI*2;for(let i=0;i<=80;i++){const phi=(i/80)*Math.PI*2+t*.18,th=t0+phi*1.8+t*.08,x=cx+(R+R*.44*.7*Math.cos(th))*Math.cos(phi)*p*.7,y=cy+(R+R*.44*.7*Math.cos(th))*Math.sin(phi)*p*.42+R*.44*.7*Math.sin(th)*p*.38;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.strokeStyle=`hsla(${h+(j/22)*50},72%,62%,.1)`;ctx.lineWidth=0.7;ctx.stroke();}
+    glw(ctx,cx,cy,R*.22,h,.5);
+  } else if(name==='vesica'){
+    const off=R*.5*p;
+    circ(ctx,cx-off,cy,R*p,`hsla(${h},75%,65%,.5)`,1.6);circ(ctx,cx+off,cy,R*p,`hsla(${h+40},75%,65%,.5)`,1.6);
+    ctx.save();ctx.beginPath();ctx.arc(cx-off,cy,R*p,-Math.PI/3,Math.PI/3);ctx.arc(cx+off,cy,R*p,Math.PI*2/3,Math.PI*4/3);ctx.closePath();
+    const gv=ctx.createRadialGradient(cx,cy,0,cx,cy,R*.65*p);gv.addColorStop(0,`hsla(${h},80%,80%,.28)`);gv.addColorStop(1,`hsla(${h+40},80%,60%,.07)`);ctx.fillStyle=gv;ctx.fill();ctx.restore();
+    for(let i=1;i<=4;i++){circ(ctx,cx-off,cy,R*p*i*.52,`hsla(${h},65%,60%,${.18-i*.03})`,0.8,[4,3]);circ(ctx,cx+off,cy,R*p*i*.52,`hsla(${h+40},65%,60%,${.18-i*.03})`,0.8,[4,3]);}
+    for(let k=0;k<4;k++){const[px,py]=polar(cx,cy,R*.36*p,k*Math.PI/2+t*.3);ln(ctx,cx,cy,px,py,`hsla(${h},80%,70%,.38)`,1.4);}
+    glw(ctx,cx,cy,R*.25,h,.42);
+  } else if(name==='spiral'){
+    ctx.save();ctx.translate(cx,cy);
+    const phi=1.6180339887;ctx.beginPath();
+    for(let i=0;i<900;i++){const ang=(i/900)*Math.PI*13+t*.18,rr=2.5*Math.pow(phi,ang/(Math.PI*2));if(rr>R*p*1.05)break;const px=rr*Math.cos(ang),py=rr*Math.sin(ang)*.92;i?ctx.lineTo(px,py):ctx.moveTo(px,py);}
+    const gs=ctx.createLinearGradient(-R,-R,R,R);gs.addColorStop(0,`hsla(${h},82%,72%,.9)`);gs.addColorStop(.5,`hsla(${h+40},80%,70%,.65)`);gs.addColorStop(1,`hsla(${h},70%,58%,.28)`);
+    ctx.strokeStyle=gs;ctx.lineWidth=2.2;ctx.stroke();
+    [1,1,2,3,5,8,13,21,34,55,89].forEach((f,i)=>{const r=f*4.8*p;if(r<R*p)circ(ctx,0,0,r,`hsla(${h+i*8},60%,55%,.09)`,0.7);});
+    ctx.font=`bold ${Math.round(R*.28)}px serif`;ctx.fillStyle=`hsla(${h},82%,80%,${.16+.1*Math.sin(t*.5)})`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('φ',0,0);
+    ctx.restore();
+  } else if(name==='sri'){
+    const sizes=[R,R*.83,R*.66,R*.52,R*.4,R*.3,R*.21];
+    sizes.forEach((s,i)=>{const isD=i%2===0;ctx.beginPath();for(let j=0;j<3;j++){const ang=j*Math.PI*2/3+(isD?0:Math.PI)+(isD?t*.04:-t*.04);const[px,py]=polar(cx,cy,s*p,ang);j?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.closePath();ctx.strokeStyle=`hsla(${isD?h:h+40},80%,68%,${.38+.2*Math.sin(t*.6)})`;ctx.lineWidth=1.3;ctx.stroke();});
+    [R*1.06,R*1.16,R*1.3].forEach((r,i)=>circ(ctx,cx,cy,r*p,`hsla(${h},62%,58%,${.1+i*.04})`,1,i===2?[]:[4,3]));
+    for(let i=0;i<16;i++){const ang=i*Math.PI/8+t*.06,[px,py]=polar(cx,cy,R*1.2*p,ang),ge=ctx.createRadialGradient(px,py,0,px,py,R*.1);ge.addColorStop(0,`hsla(${h+i*8},80%,75%,.2)`);ge.addColorStop(1,`hsla(${h},80%,75%,0)`);ctx.beginPath();ctx.ellipse(px,py,R*.065,R*.13,ang,0,Math.PI*2);ctx.fillStyle=ge;ctx.fill();}
+    glw(ctx,cx,cy,R*.16,h,.58);
+  } else if(name==='merkaba'){
+    for(let s=0;s<2;s++){ctx.beginPath();for(let i=0;i<3;i++){const ang=i*Math.PI*2/3+(s?t*.23:-t*.23)+Math.PI/6;const[px,py]=polar(cx,cy,R*p*.62,ang);i?ctx.lineTo(px,py):ctx.moveTo(px,py);}ctx.closePath();ctx.strokeStyle=`hsla(${s?h+40:h},84%,72%,${.65+.2*Math.sin(t*.8)})`;ctx.lineWidth=2.2;ctx.stroke();}
+    for(let i=1;i<=6;i++)circ(ctx,cx,cy,R*p*.62+i*R*.11,`hsla(${i%2?h:h+40},62%,58%,${.04+.02*(7-i)})`,1);
+    for(let k=0;k<12;k++){const[px,py]=polar(cx,cy,R*p*1.06,k*Math.PI/6+t*.1);ln(ctx,cx,cy,px,py,`hsla(${h},72%,62%,.04)`,0.6);}
+    glw(ctx,cx,cy,R*.2,h,.65);
+  }
+  // Outer ring pulse
+  const pr=.5+.5*Math.sin(t*.8);circ(ctx,cx,cy,W*.485,`hsla(${h},65%,60%,${.06+.05*pr})`,1);
+}
+
+// ── AUDIO ──
+let aCtx=null;const tones={};
+function ensureAudio(){if(!aCtx){aCtx=new(window.AudioContext||window.webkitAudioContext)();}if(aCtx.state==='suspended')aCtx.resume();}
+function startTone(id,hz){
+  ensureAudio();if(tones[id])return;
+  const gain=aCtx.createGain();gain.gain.setValueAtTime(0,aCtx.currentTime);gain.gain.linearRampToValueAtTime(0.07,aCtx.currentTime+1.5);gain.connect(aCtx.destination);
+  const oL=aCtx.createOscillator(),oR=aCtx.createOscillator();oL.type=oR.type='sine';oL.frequency.value=hz;oR.frequency.value=hz+7;
+  const pL=aCtx.createStereoPanner?aCtx.createStereoPanner():null,pR=aCtx.createStereoPanner?aCtx.createStereoPanner():null;
+  if(pL){pL.pan.value=-1;oL.connect(pL);pL.connect(gain);}else oL.connect(gain);
+  if(pR){pR.pan.value=1;oR.connect(pR);pR.connect(gain);}else oR.connect(gain);
+  oL.start();oR.start();tones[id]={oL,oR,gain};
+}
+function stopTone(id){if(!tones[id])return;const{oL,oR,gain}=tones[id];gain.gain.setTargetAtTime(0,aCtx.currentTime,.5);setTimeout(()=>{try{oL.stop();oR.stop();}catch(e){}},1600);delete tones[id];}
+
+// ── PRINCIPLES DATA ──
+const P=[
+{n:'I',name:'MENTALISM',full:'THE PRINCIPLE OF MENTALISM',lat:'"The All is Mind; the Universe is Mental."',ac:'#f5e070',hz:963,geo:'metatron',geoLabel:"METATRON'S CUBE",
+ herm:'The Kybalion teaches that beneath all phenomena lies pure consciousness — "The All" — an infinite, living Mind in which all universes exist as thoughts. Matter, energy and space are mental in their ultimate nature. The physical world is not the foundation of reality; consciousness is.',
+ quant:'This mirrors the quantum mechanical finding that physical reality does not exist independently of observation. The Copenhagen interpretation holds it is brought into being by conscious measurement. John Wheeler called it the "participatory universe" — the cosmos requires observers. Consciousness is not a product of the universe; the universe is a product of consciousness.',
+ prac:'Sit before Metatron\'s Cube with 963 Hz playing. Contemplate that everything you perceive — including your own body — exists as a pattern of information within a universal field of consciousness. Hold this recognition without strain for 11 minutes. Notice what subtly shifts in the quality of your awareness.'},
+{n:'II',name:'CORRESPONDENCE',full:'THE PRINCIPLE OF CORRESPONDENCE',lat:'"As above, so below; as below, so above."',ac:'#00d4ff',hz:432,geo:'flower',geoLabel:'FLOWER OF LIFE',
+ herm:'There are seven planes of reality, each operating by identical laws. Understanding any one gives understanding of all. The microcosm perfectly reflects the macrocosm at every scale — from atom to galaxy, from personal thought to cosmic event. Nothing exists in isolation.',
+ quant:'Fractal geometry proves the same patterns repeat at every scale. The branching of neurons mirrors rivers, lungs and galaxies. Quantum field theory applies identical mathematical structures from sub-atomic to cosmological scales. The universe is demonstrably self-similar at every level of zoom — the map and the territory are the same shape.',
+ prac:'Meditate on the Flower of Life at 432 Hz. Begin with the central circle — you — then expand awareness outward through each ring: immediate reality, community, humanity, planet, solar system, galaxy, cosmos. Notice the identical pattern at every scale. What you resolve in the small resolves in the large.'},
+{n:'III',name:'VIBRATION',full:'THE PRINCIPLE OF VIBRATION',lat:'"Nothing rests; everything moves; everything vibrates."',ac:'#00e87a',hz:528,geo:'torus',geoLabel:'TORUS FIELD',
+ herm:'Matter is energy vibrating at low frequency. Thought is energy vibrating at high frequency. Between them lies every gradation of the great spectrum of being. The difference between lead and gold — between ignorance and enlightenment — is only the rate of vibration.',
+ quant:'Quantum field theory describes every particle as an excitation of an underlying quantum field — a vibration in the fabric of spacetime. String theory proposes all particles are literally vibrating strings of energy. Frequency is not merely a property of matter; it is the fundamental nature of matter itself at the deepest level of reality.',
+ prac:'Activate the Torus Field with 528 Hz. Feel your own toroidal electromagnetic field — generated by your heart — vibrating at the Miracle Tone. Recognise yourself as a pattern of vibration within the universal field. You are not a body having experiences; you are a frequency having a body.'},
+{n:'IV',name:'POLARITY',full:'THE PRINCIPLE OF POLARITY',lat:'"Everything is dual; everything has poles; everything has its pair of opposites."',ac:'#ff4d6d',hz:396,geo:'vesica',geoLabel:'VESICA PISCIS',
+ herm:'Hot and cold are degrees of the same thing. Love and hate are degrees of the same thing. The Hermetic art of Mental Transmutation works by consciously moving along the poles — converting fear to courage, grief to wisdom, confusion to clarity, one degree at a time.',
+ quant:'Every quantum observable has a complementary opposite — position and momentum, energy and time cannot be simultaneously known with perfect precision. Antimatter is matter at opposite polarity. The quantum vacuum holds equal amounts of both in perfect neutral balance — the still point between all poles simultaneously.',
+ prac:'Meditate on the Vesica Piscis — two circles, one light and one dark, overlapping to create a luminous third space. In that middle ground where opposites meet lies the creative principle. Use 396 Hz to release any polarised state you are resisting. Move deliberately toward the positive pole, one degree at a time.'},
+{n:'V',name:'RHYTHM',full:'THE PRINCIPLE OF RHYTHM',lat:'"Everything flows, out and in; everything has its tides; all things rise and fall."',ac:'#a78bfa',hz:417,geo:'spiral',geoLabel:'GOLDEN SPIRAL',
+ herm:'The pendulum of mental states swings from positive to negative — but the Master learns to neutralize the backward swing by rising above it. Understanding rhythm means riding the wave consciously rather than being tossed by it. All expansion precedes contraction; all winter precedes spring.',
+ quant:'Quantum oscillators are the foundation of all physical reality — atoms oscillate, fields oscillate, the vacuum oscillates. The Schumann resonance is Earth\'s electromagnetic heartbeat at 7.83 Hz, cycling with perfect rhythm since the planet formed. Even the cosmic microwave background has characteristic oscillations imprinted at the moment of creation.',
+ prac:'Open the Golden Spiral with 417 Hz. Watch it move both inward and outward simultaneously — the rhythm of the universe. Breathe in harmony with the spiral for 13 minutes. Rise above the movement to witness both directions as one whole. The Master does not choose the inward or outward; they inhabit the still point at the centre.'},
+{n:'VI',name:'CAUSE & EFFECT',full:'THE PRINCIPLE OF CAUSE & EFFECT',lat:'"Every cause has its effect; every effect has its cause. Chance is but a name for Law not recognized."',ac:'#fbbf24',hz:741,geo:'sri',geoLabel:'SRI YANTRA',
+ herm:'Nothing happens by chance. The Hermetic initiate seeks to become a Cause rather than an Effect — to act consciously upon the world rather than be acted upon by it. This is the central principle underlying all intentional creation, manifestation and genuine freedom.',
+ quant:'Quantum causality operates through probability wave propagation. While individual quantum events appear random, their statistical distributions obey exact causal law. More profoundly: the observer participates in determining outcomes. Consciousness is woven into the causal fabric of reality itself — measurement is an act of creation.',
+ prac:'Sit before the Sri Yantra at 741 Hz. Work inward from the outermost triangle to the central bindu — from gross effect to subtle cause to ultimate source. Identify one current challenge and trace its causal chain back three steps. Ask with clarity: what conscious cause can I set in motion now to change this effect?'},
+{n:'VII',name:'GENDER',full:'THE PRINCIPLE OF GENDER',lat:'"Gender is in everything; everything has its masculine and feminine principles."',ac:'#2dd4bf',hz:852,geo:'merkaba',geoLabel:'MERKABA',
+ herm:'Every act of creation requires both the masculine principle (active, initiating, projective) and the feminine principle (receptive, nurturing, generative). In the mind: masculine is directed will; feminine is rich imagination and feeling. Mastery requires full integration and harmonious operation of both simultaneously.',
+ quant:'In physics, bosons (force carriers) are the projective masculine forces; fermions (matter particles) are the feminine structural forms. CPT symmetry — charge, parity, time — is the quantum expression of gender, and its conservation governs every particle interaction in the universe without exception.',
+ prac:'Activate the Merkaba — two counter-rotating tetrahedra, masculine (upward, active) and feminine (downward, receptive). Set them spinning at 852 Hz. Feel both principles operating within you simultaneously. Creation becomes effortless and inevitable when both flow in conscious, loving coordination.'},
+];
+
+// ── BUILD PRINCIPLE SELECTOR ──
+let curP=0,curTab='herm',pTone=false;
+let pAnimT=0,pAnimLast=0,pAnimFrame=null;
+const pCtx=document.getElementById('p-canvas').getContext('2d');
+const pW=260,pH=260;
+
+function animP(ts){
+  const dt=Math.min((ts-pAnimLast)/1000,.05);pAnimLast=ts;pAnimT+=dt;
+  drawGeo(pCtx,P[curP].geo,pAnimT,pW,pH,P[curP].ac);
+  pAnimFrame=requestAnimationFrame(animP);
+}
+requestAnimationFrame(animP);
+
+function selectP(idx){
+  curP=idx;curTab='herm';
+  document.querySelectorAll('.p-btn').forEach((b,i)=>b.classList.toggle('on',i===idx));
+  document.getElementById('p-hz').textContent=P[idx].hz+' Hz';
+  document.getElementById('p-geo').textContent=P[idx].geoLabel;
+  // update accent CSS var
+  document.getElementById('pviewer').style.setProperty('--p-accent',P[idx].ac);
+  updatePText();
+  // stop tone
+  if(pTone){stopTone('principal');pTone=false;document.getElementById('p-play').textContent='▶';document.getElementById('p-play').classList.remove('on');}
+}
+
+function updatePText(){
+  const c=document.getElementById('p-content');
+  c.style.opacity='0';
+  setTimeout(()=>{c.textContent=P[curP][curTab];c.style.transition='opacity .35s';c.style.opacity='1';},180);
+  document.getElementById('p-pnote').classList.toggle('show',curTab==='prac');
+}
+
+function switchTab(tab,btn){
+  curTab=tab;
+  document.querySelectorAll('.p-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  updatePText();
+}
+
+function togglePrincipalTone(){
+  const btn=document.getElementById('p-play');
+  if(pTone){stopTone('principal');pTone=false;btn.textContent='▶';btn.classList.remove('on');}
+  else{startTone('principal',P[curP].hz);pTone=true;btn.textContent='⏸';btn.classList.add('on');}
+}
+
+// Build selector
+const sel=document.getElementById('pselector');
+P.forEach((p,i)=>{
+  const btn=document.createElement('button');
+  btn.className='p-btn'+(i===0?' on':'');
+  btn.style.setProperty('--p-accent',p.ac);
+  btn.innerHTML=`<div class="p-btn-num">${p.n}</div>
+    <div class="p-btn-info">
+      <div class="p-btn-name">${p.full}</div>
+      <div class="p-btn-latin">${p.lat}</div>
+    </div>
+    <div class="p-btn-hz">${p.hz} Hz</div>`;
+  btn.onclick=()=>selectP(i);
+  sel.appendChild(btn);
+});
+selectP(0);
+
+// ── ORACLE ──
+const oCtx=document.getElementById('oracle-c').getContext('2d');
+let oGeo='metatron',oAc='#f5e070',oT=0,oLast=0;
+function oFrame(ts){const dt=Math.min((ts-oLast)/1000,.05);oLast=ts;oT+=dt;drawGeo(oCtx,oGeo,oT,300,300,oAc);requestAnimationFrame(oFrame);}
+requestAnimationFrame(oFrame);
+
+const OD=[
+{geo:'metatron',ac:'#f5e070',pr:'I — MENTALISM',q:'What appears to be a fixed external reality is a thought within the universal Mind.',a:'The situation troubling you does not exist "out there" — it exists as a pattern of consciousness. Mental transmutation begins with recognising the mental nature of what you seek to change. Observe the thought. Know yourself as the observer, not the observed. The field that holds the thought is untouched by its contents.',freq:'963 Hz'},
+{geo:'flower',ac:'#00d4ff',pr:'II — CORRESPONDENCE',q:'The pattern you see in the small mirrors a pattern operating at the cosmic scale.',a:'Something in your immediate life is a faithful holographic copy of a larger pattern. What happens in your closest relationships reflects your relationship with the whole of reality. Look deeply into the small: there you will find the key to the large. What you resolve within resolves without.',freq:'432 Hz'},
+{geo:'torus',ac:'#00e87a',pr:'III — VIBRATION',q:'Nothing in your life is fixed. Everything — including your current state — is a frequency that can be raised.',a:'The obstacle before you is not a wall — it is a frequency. Your task is not to push against it but to raise your own vibration to a level at which it ceases to exist as a barrier. 528 Hz begins this shift. Surrender to the tone and let the geometry show you what becomes possible when vibration rises.',freq:'528 Hz'},
+{geo:'vesica',ac:'#ff4d6d',pr:'IV — POLARITY',q:'What you are resisting contains within itself the seed of what you most desire.',a:'The quality you most wish to cultivate is the polar opposite of what you currently experience. You are already on the spectrum — merely at the lower pole. Begin moving one degree at a time toward the positive. You are closer than you believe. The path between poles is always shorter than it appears.',freq:'396 Hz'},
+{geo:'spiral',ac:'#a78bfa',pr:'V — RHYTHM',q:'The tide going out is preparing the ground for a greater incoming wave.',a:'You are in the outward phase of a natural rhythm. This is not failure — it is the pendulum completing its arc so that it may return with greater force. The Master rises above the movement and observes both directions as one whole. Rest in this higher view. The incoming wave is already forming below the surface.',freq:'417 Hz'},
+{geo:'sri',ac:'#fbbf24',pr:'VI — CAUSE & EFFECT',q:'Nothing has happened to you by chance. You have been the unconscious cause of what you experience as effect.',a:'If you are the cause, you can change the effect. This is not blame — it is profound power. Identify one unconscious pattern of thought or action generating the current effect. Change that cause consistently and deliberately. By Hermetic law — which is quantum law — the effect must follow.',freq:'741 Hz'},
+{geo:'merkaba',ac:'#2dd4bf',pr:'VII — GENDER',q:'You are attempting to create using only one half of your creative power.',a:'Are you initiating without receptivity? Or receiving without direction? True creation requires both the masculine will — clear, directed intention — and the feminine imagination — rich, feeling-full inner vision. The Merkaba spins because both tetrahedra move in perfect coordination, counter to one another, unified in purpose.',freq:'852 Hz'},
+];
+let lastO=-1;
+function consult(){
+  let idx;do{idx=Math.floor(Math.random()*OD.length);}while(idx===lastO);lastO=idx;const o=OD[idx];
+  oGeo=o.geo;oAc=o.ac;
+  ['oq','oa','op'].forEach(id=>{document.getElementById(id).style.opacity='0';});
+  setTimeout(()=>{
+    document.getElementById('oq').textContent=o.q;
+    document.getElementById('oa').textContent=o.a;
+    document.getElementById('op').textContent=`✦ PRINCIPLE ${o.pr} · ${o.freq} ✦`;
+    ['oq','oa','op'].forEach((id,i)=>setTimeout(()=>{const el=document.getElementById(id);el.style.transition='opacity .55s';el.style.opacity='1';},i*150));
+  },300);
+}
+
+// ── BRIDGE ──
+const BG=[
+{i:'👁',t:'THE OBSERVER EFFECT',b:'Quantum mechanics proved observation collapses the wave function — bringing one reality from infinite possibility. The Principle of Mentalism taught this 3,000 years earlier. Consciousness does not merely witness reality; it participates in creating it at every moment.',c:'#f5e070'},
+{i:'🔗',t:'QUANTUM ENTANGLEMENT',b:'Entangled particles remain instantly connected regardless of distance — Einstein\'s "spooky action at a distance." This is the quantum signature of Correspondence: "As Above, So Below." At the quantum level, separation is provably an illusion.',c:'#00d4ff'},
+{i:'〰',t:'WAVE-PARTICLE DUALITY',b:'Every quantum particle exists simultaneously as wave (infinite possibility) and particle (definite actuality). This is the Principle of Polarity in quantum form — every phenomenon contains its apparent opposite within itself at all times.',c:'#00e87a'},
+{i:'🌊',t:'THE ZERO POINT FIELD',b:'Even at absolute zero, the quantum vacuum seethes with virtual particles. This is the "All" of Hermeticism — the infinite field of pure potential from which all phenomena emerge and to which they return. The ground state of the universe is not empty; it is full.',c:'#a78bfa'},
+{i:'🔀',t:'QUANTUM SUPERPOSITION',b:'Before measurement, a quantum system exists in all possible states simultaneously. This is the Principle of Rhythm — all states coexist in the wave. Consciousness, through observation, selects which state manifests from infinite possibility.',c:'#fbbf24'},
+{i:'📡',t:'NON-LOCALITY',b:'Quantum effects are non-local — occurring simultaneously across any distance with zero time delay. This confirms the Hermetic teaching that all points in space-time are connected. The universe is not a collection of separate parts — it is a unified, non-local, living whole.',c:'#ff4d6d'},
+];
+const bg=document.getElementById('bgrid');
+BG.forEach(q=>{bg.innerHTML+=`<div class="bridge-card" style="--bc:${q.c};"><div class="bridge-icon">${q.i}</div><div class="bridge-title">${q.t}</div><div class="bridge-body">${q.b}</div></div>`;});
+
+// ── QUOTES ──
+const QQ=[
+{t:'The Universe is Mental — held in the Mind of THE ALL.',s:'The Kybalion, Chapter II',c:'Modern physics calls this the participatory anthropic principle — the universe requires observers to bring it into existence. Your mind is not in the cosmos. The cosmos is in your mind.'},
+{t:'To change your mood or mental state, change your vibration. This may be done by an effort of Will, by steadfastly fixing the Attention upon the more desirable state.',s:'The Kybalion, Chapter X',c:'This is the original biohacking protocol, published in 1908. Using specific frequencies (528 Hz, 432 Hz) to shift brainwave states is its modern technological implementation. Sacred geometry operates on the visual system to alter vibratory state directly and measurably.'},
+{t:'Mind may be Transmuted from state to state, degree to degree, condition to condition, pole to pole, vibration to vibration. True Hermetic Transmutation is a Mental Art.',s:'The Kybalion, Chapter VIII',c:'Quantum coherence — the alignment of quantum states — is the physics of mental transmutation. When we entrain brainwaves to healing frequencies, we perform quantum hermetic transmutation literally. The geometry provides the pattern; the frequency provides the carrier wave.'},
+{t:'The truly wise use Law against laws — the higher against the lower — and accomplish their ends thereby.',s:'The Kybalion, Chapter III',c:'This is the principle of coherent quantum control — working with the laws of physics at a higher level to direct outcomes. You do not escape causality; you work with it consciously from a higher plane of understanding.'},
+];
+const qs=document.getElementById('quotes');
+QQ.forEach(q=>{qs.innerHTML+=`<div class="quote-item"><div class="q-orn">"</div><div><div class="q-txt">${q.t}</div><div class="q-src">— ${q.s}</div><div class="q-com">${q.c}</div></div></div>`;});
+
+// ── TOOLS ──
+const HT=[
+{s:'☿',n:'MENTALISM ACTIVATOR',p:'PRINCIPLE I',d:'963 Hz + Metatron\'s Cube. 21-minute guided recognition that all phenomena arise within universal consciousness. The foundation practice of the Hermetic tradition.',t:'b-free'},
+{s:'◈',n:'CORRESPONDENCE MIRROR',p:'PRINCIPLE II',d:'432 Hz + Flower of Life. Expand awareness through seven concentric scales from quantum to cosmic. See the identical sacred pattern at every level of reality.',t:'b-free'},
+{s:'〰',n:'VIBRATION TUNER',p:'PRINCIPLE III',d:'528 Hz + Torus Field. Identify the vibrational frequency of any life situation and consciously transmute it upward using the Hermetic Art of Vibration.',t:'b-init'},
+{s:'⚖',n:'POLARITY TRANSMUTER',p:'PRINCIPLE IV',d:'396 Hz + Vesica Piscis. Transmute any negative state to its polar opposite. Fear to courage. Grief to wisdom. Confusion to clarity. One degree at a time.',t:'b-init'},
+{s:'🌀',n:'RHYTHM MASTERY PORTAL',p:'PRINCIPLE V',d:'417 Hz + Golden Spiral. 13-minute practice for neutralizing the backward swing of the mental pendulum. Rise above the rhythm without leaving the flow.',t:'b-adept'},
+{s:'⚡',n:'CAUSAL CHAIN MAPPER',p:'PRINCIPLE VI',d:'741 Hz + Sri Yantra. Trace any situation from gross effect back to subtle cause. Identify the first cause you can consciously set in motion to change everything downstream.',t:'b-adept'},
+{s:'✡',n:'GENDER INTEGRATION FIELD',p:'PRINCIPLE VII',d:'852 Hz + Merkaba. Counter-rotating masculine and feminine energy fields. Activate full creative power when both principles operate in conscious, harmonious coordination.',t:'b-adept'},
+{s:'🔮',n:'HERMETIC QUANTUM ORACLE',p:'ALL SEVEN PRINCIPLES',d:'AI oracle drawing from all seven principles and their quantum equivalents. Wisdom from ancient Hermeticism and modern physics delivered in every response.',t:'b-adept'},
+{s:'☿',n:'KYBALION CONTEMPLATION SERIES',p:'COMPLETE INITIATION',d:'60 contemplations from The Kybalion, each paired with sacred geometry and healing frequency. One per day for 60 days — a complete Hermetic initiation path.',t:'b-master'},
+{s:'⊕',n:'EMERALD TABLET DECODER',p:'ALCHEMICAL TRANSMISSION',d:'The 14 verses of the Emerald Tablet decoded through quantum physics, sacred geometry and Solfeggio frequencies. The oldest alchemical text, fully activated.',t:'b-master'},
+{s:'∞',n:'AS ABOVE SO BELOW NAVIGATOR',p:'PRINCIPLE II — EXPANDED',d:'Interactive map from quantum to cosmic. Navigate Hermetic correspondences, geometries and frequencies at every scale of reality simultaneously.',t:'b-init'},
+{s:'🧬',n:'MENTAL TRANSMUTATION LAB',p:'HERMETIC ALCHEMY',d:'7-day intensive: all seven principles applied for conscious reality creation. Transmute one specific life area using geometry, frequency and Hermetic law in sequence.',t:'b-master'},
+];
+const tg=document.getElementById('tgrid');
+HT.forEach(h=>{tg.innerHTML+=`<div class="tool-card"><span class="tool-badge ${h.t}">${h.t==='b-free'?'FREE':h.t==='b-init'?'INITIATE':h.t==='b-adept'?'ADEPT':'MASTER'}</span><div class="tool-sig">${h.s}</div><div class="tool-name">${h.n}</div><div class="tool-prin">${h.p}</div><div class="tool-desc">${h.d}</div><span class="tool-act">ACTIVATE ✦</span></div>`;});
+
+// ── MODAL ──
+function openModal(e){if(e)e.preventDefault();document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+function submitModal(){
+  const email=document.getElementById('me').value;if(!email){alert('Please enter your email.');return;}
+  const leads=JSON.parse(localStorage.getItem('lum_leads')||'[]');
+  leads.push({name:document.getElementById('mn').value,email,module:'hermetic-v2',ts:Date.now()});
+  localStorage.setItem('lum_leads',JSON.stringify(leads));
+  closeModal();alert('✦ Welcome, Initiate. Check your email to begin.');
+}
+
+// ── REVEAL ──
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.06});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
