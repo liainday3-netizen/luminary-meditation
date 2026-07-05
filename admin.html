@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMINARY — Admin V2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400&family=JetBrains+Mono:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap');
+:root{--void:#010206;--abyss:#04060e;--deep:#070d1c;--surface:#0c1428;--raised:#111e36;--gold:#c9a84c;--gold-l:#f0cc60;--gold-d:#7a5520;--violet:#6d28d9;--violet-l:#9d6fff;--cyan:#00d4ff;--emerald:#00e87a;--rose:#ff4d6d;--amber:#ffb830;--text:#ede8e0;--t2:rgba(237,232,224,0.55);--t3:rgba(237,232,224,0.28);--border:rgba(201,168,76,0.1);--bh:rgba(201,168,76,0.32);}
+*{margin:0;padding:0;box-sizing:border-box;}body{background:var(--abyss);color:var(--text);font-family:'Cormorant Garamond',serif;display:flex;min-height:100vh;}
+::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);}
+
+/* SIDEBAR */
+aside{width:210px;min-height:100vh;background:var(--void);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;}
+.s-logo{padding:22px 20px;border-bottom:1px solid var(--border);font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:0.2em;color:var(--gold-l);}
+.s-logo span{display:block;font-size:0.48rem;color:var(--t3);letter-spacing:0.26em;margin-top:2px;}
+nav.snav{flex:1;padding:14px 0;}
+.nsec{font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.3em;color:rgba(237,232,224,0.18);padding:12px 18px 5px;}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 18px;color:var(--t3);cursor:pointer;transition:all .2s;font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.1em;border-left:2px solid transparent;}
+.ni:hover{color:var(--gold);background:rgba(201,168,76,0.03);}
+.ni.on{color:var(--gold-l);border-left-color:var(--gold);background:rgba(201,168,76,0.06);}
+.ni .ic{font-size:0.85rem;width:14px;}
+.s-foot{padding:14px 18px;border-top:1px solid var(--border);font-size:0.7rem;color:rgba(237,232,224,0.18);font-style:italic;}
+
+/* MAIN */
+main{flex:1;padding:28px;overflow-x:hidden;}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.page-title{font-family:'Cinzel',serif;font-weight:300;font-size:1.4rem;color:var(--gold-l);letter-spacing:0.1em;}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,232,122,0.1);border:1px solid rgba(0,232,122,0.22);padding:4px 12px;border-radius:20px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--emerald);}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--emerald);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px;}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 18px;transition:border-color .3s;}
+.kpi:hover{border-color:var(--bh);}
+.kpi-l{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.24em;color:var(--t3);margin-bottom:7px;}
+.kpi-v{font-family:'JetBrains Mono',monospace;font-size:1.75rem;color:var(--gold-l);line-height:1;}
+.kpi-d{font-size:0.72rem;margin-top:5px;}
+.up{color:var(--emerald);}
+.dn{color:var(--rose);}
+
+/* GRID */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px;}
+.card-title{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--gold);margin-bottom:18px;}
+
+/* SPARK */
+.spark{display:flex;align-items:flex-end;gap:3px;height:72px;}
+.sb{flex:1;border-radius:3px 3px 0 0;}
+.sl{display:flex;justify-content:space-between;margin-top:5px;}
+.sl span{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:var(--t3);}
+
+/* BAR CHART */
+.bchart{display:flex;flex-direction:column;gap:9px;}
+.brow{display:flex;align-items:center;gap:9px;}
+.blabel{font-size:0.74rem;color:var(--t2);width:88px;text-align:right;flex-shrink:0;font-style:italic;}
+.btrack{flex:1;height:7px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;}
+.bfill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.bval{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--t3);width:38px;}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:0.8rem;}
+.tbl th{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.18em;color:var(--t3);text-align:left;padding:7px 10px;border-bottom:1px solid var(--border);}
+.tbl td{padding:9px 10px;border-bottom:1px solid rgba(201,168,76,0.04);color:var(--t2);font-style:italic;}
+.tbl tr:hover td{background:rgba(201,168,76,0.02);}
+.tbl td:first-child{color:var(--text);font-style:normal;}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-family:'Cinzel',serif;font-size:0.46rem;letter-spacing:0.1em;}
+.p-adept{background:rgba(109,40,217,0.12);color:var(--violet-l);border:1px solid rgba(109,40,217,0.28);}
+.p-init{background:rgba(0,212,255,0.08);color:var(--cyan);border:1px solid rgba(0,212,255,0.2);}
+.p-free{background:rgba(201,168,76,0.07);color:var(--gold);border:1px solid rgba(201,168,76,0.18);}
+.p-master{background:rgba(255,184,48,0.08);color:var(--amber);border:1px solid rgba(255,184,48,0.22);}
+.p-active{background:rgba(0,232,122,0.08);color:var(--emerald);border:1px solid rgba(0,232,122,0.2);}
+.p-trial{background:rgba(201,168,76,0.07);color:var(--gold);border:1px solid rgba(201,168,76,0.18);}
+.p-churn{background:rgba(255,77,109,0.08);color:var(--rose);border:1px solid rgba(255,77,109,0.2);}
+
+/* AUTOMATIONS */
+.auto-list{display:flex;flex-direction:column;gap:10px;}
+.auto-item{background:var(--raised);border:1px solid var(--border);border-radius:9px;padding:14px;display:flex;align-items:center;gap:14px;}
+.auto-icon{font-size:1.2rem;flex-shrink:0;}
+.auto-name{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.1em;color:var(--text);margin-bottom:2px;}
+.auto-desc{font-size:0.76rem;color:var(--t3);font-style:italic;}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.tog-sl{position:absolute;inset:0;background:rgba(255,255,255,0.07);border-radius:22px;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,0.08);}
+.tog-sl::before{content:'';position:absolute;height:16px;width:16px;left:2px;top:2px;background:var(--t3);border-radius:50%;transition:.3s;}
+.toggle input:checked+.tog-sl{background:rgba(0,232,122,0.18);border-color:rgba(0,232,122,0.35);}
+.toggle input:checked+.tog-sl::before{transform:translateX(18px);background:var(--emerald);}
+
+/* SEQ */
+.seq-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.seq-n{width:26px;height:26px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid var(--bh);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gold);flex-shrink:0;}
+.seq-title{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.1em;color:var(--text);margin-bottom:2px;}
+.seq-meta{font-size:0.72rem;color:var(--t3);font-style:italic;}
+.seq-stats{display:flex;gap:14px;margin-top:5px;}
+.seq-stat{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--cyan);}
+
+/* REV */
+.rev-rows{display:flex;flex-direction:column;gap:7px;}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:9px 13px;background:var(--raised);border-radius:8px;}
+.rr-name{font-size:0.82rem;color:var(--t2);font-style:italic;}
+.rr-amt{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--gold-l);}
+.rr.total{border:1px solid rgba(201,168,76,0.22);}
+.rr.total .rr-name{color:var(--gold-l);font-style:normal;}
+
+/* PAGE */
+.page{display:none;}.page.on{display:block;}
+#clock{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--t3);}
+</style>
+</head>
+<body>
+<aside>
+  <div class="s-logo">✦ LUMINARY<span>ADMIN V2</span></div>
+  <nav class="snav">
+    <div class="nsec">OVERVIEW</div>
+    <div class="ni on" onclick="show('dashboard',this)"><span class="ic">◈</span>Dashboard</div>
+    <div class="ni" onclick="show('revenue',this)"><span class="ic">💰</span>Revenue</div>
+    <div class="nsec">MEMBERS</div>
+    <div class="ni" onclick="show('subscribers',this)"><span class="ic">👤</span>Subscribers</div>
+    <div class="ni" onclick="show('affiliates',this)"><span class="ic">🔗</span>Affiliates</div>
+    <div class="nsec">AUTOMATION</div>
+    <div class="ni" onclick="show('sequences',this)"><span class="ic">✉</span>Email Sequences</div>
+    <div class="ni" onclick="show('automations',this)"><span class="ic">⚙</span>Automations</div>
+    <div class="ni" onclick="show('scheduler',this)"><span class="ic">⏱</span>Scheduler</div>
+  </nav>
+  <div class="s-foot">Production · v2.0.0<br>Last sync: just now</div>
+</aside>
+<main>
+
+<div class="page on" id="page-dashboard">
+  <div class="topbar"><div class="page-title">Sacred Operations</div><div style="display:flex;gap:12px;align-items:center;"><div class="live-badge"><span class="live-dot"></span>LIVE</div><span id="clock"></span></div></div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-l">MONTHLY REVENUE</div><div class="kpi-v">$8,734</div><div class="kpi-d up">↑ 23% vs last month</div></div>
+    <div class="kpi"><div class="kpi-l">ACTIVE SUBSCRIBERS</div><div class="kpi-v">1,247</div><div class="kpi-d up">↑ 89 this month</div></div>
+    <div class="kpi"><div class="kpi-l">TRIAL CONVERSIONS</div><div class="kpi-v">68%</div><div class="kpi-d up">↑ 4% vs last month</div></div>
+    <div class="kpi"><div class="kpi-l">CHURN RATE</div><div class="kpi-v">3.2%</div><div class="kpi-d up">↓ improved 0.8%</div></div>
+    <div class="kpi"><div class="kpi-l">AFFILIATE REVENUE</div><div class="kpi-v">$2,108</div><div class="kpi-d up">↑ 18 active affiliates</div></div>
+    <div class="kpi"><div class="kpi-l">AVG SESSION</div><div class="kpi-v">22m</div><div class="kpi-d up">↑ 4min vs last month</div></div>
+  </div>
+  <div class="two-col">
+    <div class="card"><div class="card-title">REVENUE — LAST 8 WEEKS</div><div class="spark" id="spark"></div><div class="sl" id="spark-l"></div></div>
+    <div class="card"><div class="card-title">MOST USED GEOMETRIES</div><div class="bchart" id="geo-chart"></div></div>
+  </div>
+  <div class="two-col">
+    <div class="card"><div class="card-title">TOP FREQUENCIES TODAY</div><div class="bchart" id="freq-chart"></div></div>
+    <div class="card"><div class="card-title">PLAN DISTRIBUTION</div><div class="bchart" id="plan-chart"></div></div>
+  </div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">RECENT SIGNUPS</div><table class="tbl"><thead><tr><th>Name</th><th>Plan</th><th>Source</th><th>Status</th><th>Joined</th></tr></thead><tbody id="signup-tb"></tbody></table></div>
+</div>
+
+<div class="page" id="page-revenue">
+  <div class="topbar"><div class="page-title">Revenue</div></div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-l">MRR</div><div class="kpi-v">$8,734</div><div class="kpi-d up">↑ 23%</div></div>
+    <div class="kpi"><div class="kpi-l">ARR (projected)</div><div class="kpi-v">$104k</div><div class="kpi-d up">On track</div></div>
+    <div class="kpi"><div class="kpi-l">AVERAGE LTV</div><div class="kpi-v">$186</div><div class="kpi-d up">↑ $12</div></div>
+    <div class="kpi"><div class="kpi-l">CAC</div><div class="kpi-v">$4.20</div><div class="kpi-d up">↓ $0.80</div></div>
+  </div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">REVENUE BREAKDOWN</div><div class="rev-rows"><div class="rr"><span class="rr-name">✦ Master ($111/mo) — 48 members</span><span class="rr-amt">$5,328</span></div><div class="rr"><span class="rr-name">✦ Adept ($33/mo) — 142 members</span><span class="rr-amt">$4,686</span></div><div class="rr"><span class="rr-name">✦ Initiate ($11/mo) — 558 members</span><span class="rr-amt">$3,104</span></div><div class="rr"><span class="rr-name">✦ Affiliate commissions paid out</span><span class="rr-amt">−$1,243</span></div><div class="rr total"><span class="rr-name">NET MRR</span><span class="rr-amt" style="color:var(--gold-l);">$8,734</span></div></div></div>
+</div>
+
+<div class="page" id="page-subscribers">
+  <div class="topbar"><div class="page-title">Subscribers</div></div>
+  <div class="card"><div class="card-title">ALL MEMBERS (1,247)</div><table class="tbl"><thead><tr><th>#</th><th>Name</th><th>Plan</th><th>Since</th><th>Sessions</th><th>Favourite</th><th>Status</th></tr></thead><tbody id="subs-tb"></tbody></table></div>
+</div>
+
+<div class="page" id="page-affiliates">
+  <div class="topbar"><div class="page-title">Affiliates</div></div>
+  <div class="kpi-grid"><div class="kpi"><div class="kpi-l">ACTIVE AFFILIATES</div><div class="kpi-v">18</div></div><div class="kpi"><div class="kpi-l">TOTAL REFERRED</div><div class="kpi-v">342</div><div class="kpi-d up">↑ 28 this month</div></div><div class="kpi"><div class="kpi-l">COMMISSIONS THIS MONTH</div><div class="kpi-v">$1,243</div></div><div class="kpi"><div class="kpi-l">AVG/AFFILIATE</div><div class="kpi-v">$69</div></div></div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">TOP AFFILIATES</div><table class="tbl"><thead><tr><th>Rank</th><th>Name</th><th>Code</th><th>Referrals</th><th>Active</th><th>This Month</th><th>Total</th></tr></thead><tbody id="aff-tb"></tbody></table></div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">GENERATE AFFILIATE LINK</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><input id="aff-code" placeholder="Affiliate name / code" style="background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:9px 13px;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:.95rem;outline:none;flex:1;min-width:160px;"><button onclick="genLink()" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;padding:9px 20px;border-radius:8px;color:var(--void);font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.1em;cursor:pointer;">GENERATE</button></div><div id="aff-out" style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--cyan);display:none;"></div></div>
+</div>
+
+<div class="page" id="page-sequences">
+  <div class="topbar"><div class="page-title">Email Sequences</div></div>
+  <div class="card"><div class="card-title">ONBOARDING — NEW FREE MEMBERS</div><div id="seq-on"></div></div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">TRIAL CONVERSION SEQUENCE</div><div id="seq-tr"></div></div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">DUNNING — FAILED PAYMENT</div><div id="seq-du"></div></div>
+</div>
+
+<div class="page" id="page-automations">
+  <div class="topbar"><div class="page-title">Automations</div></div>
+  <div class="card"><div class="card-title">ACTIVE AUTOMATIONS</div><div class="auto-list" id="auto-list"></div></div>
+</div>
+
+<div class="page" id="page-scheduler">
+  <div class="topbar"><div class="page-title">Session Scheduler</div></div>
+  <div class="card"><div class="card-title">DAILY DELIVERY STATS</div><div class="bchart" id="sched-chart"></div></div>
+  <div class="card" style="margin-top:18px;"><div class="card-title">SCHEDULED SESSIONS TODAY</div><table class="tbl"><thead><tr><th>Time</th><th>Members</th><th>Geometry</th><th>Frequency</th><th>Status</th></tr></thead><tbody id="sched-tb"></tbody></table></div>
+</div>
+
+</main>
+<script>
+setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-GB');},1000);
+function show(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));document.getElementById('page-'+id).classList.add('on');el.classList.add('on');render(id);}
+function bc(id,rows){const el=document.getElementById(id);if(!el)return;el.innerHTML='';const mx=Math.max(...rows.map(r=>r.v));rows.forEach(r=>{el.innerHTML+=`<div class="brow"><div class="blabel">${r.l}</div><div class="btrack"><div class="bfill" style="width:${(r.v/mx)*100}%;background:${r.c||'linear-gradient(90deg,#c9a84c,#f0cc60)'};" data-w="${(r.v/mx)*100}"></div></div><div class="bval">${r.d||r.v}</div></div>`;});setTimeout(()=>{el.querySelectorAll('.bfill').forEach(f=>{f.style.width=f.dataset.w+'%';});},50);}
+function spark(){const d=[3200,4100,3800,5200,6100,7400,8100,8734],wk=['Wk1','Wk2','Wk3','Wk4','Wk5','Wk6','Wk7','Wk8'],mx=Math.max(...d);const s=document.getElementById('spark');if(!s)return;s.innerHTML=d.map((v,i)=>`<div class="sb" style="height:${Math.round((v/mx)*68)}px;background:linear-gradient(180deg,#c9a84c,#7a5520);opacity:${.5+.5*(i/d.length)};"></div>`).join('');document.getElementById('spark-l').innerHTML=wk.map((w,i)=>`<span style="color:${i===7?'var(--gold)':'var(--t3)'}">${w}</span>`).join('');}
+const SUPS=[{name:'Aria Chen',plan:'initiate',src:'Organic',st:'active',t:'2h ago'},{name:'Tobias Rein',plan:'master',src:'Affiliate: luna33',st:'active',t:'5h ago'},{name:'Sylvia Markov',plan:'free',src:'Instagram',st:'trial',t:'8h ago'},{name:'James Okafor',plan:'initiate',src:'Email',st:'active',t:'12h ago'},{name:'Nadia Patel',plan:'adept',src:'Affiliate: starbody',st:'active',t:'1d ago'}];
+const SUBS=[{n:'Aria Chen',pl:'initiate',si:'Mar 2025',ss:142,g:'Flower of Life',st:'active'},{n:'Tobias Rein',pl:'master',si:'Jan 2025',ss:289,g:"Metatron's Cube",st:'active'},{n:'Sylvia Markov',pl:'free',si:'Apr 2025',ss:8,g:'Sri Yantra',st:'trial'},{n:'James Okafor',pl:'initiate',si:'Feb 2025',ss:74,g:'Torus Field',st:'active'},{n:'Nadia Patel',pl:'adept',si:'Nov 2024',ss:501,g:'Golden Spiral',st:'active'},{n:'Chen Wei',pl:'master',si:'Dec 2024',ss:388,g:"Metatron's Cube",st:'active'},{n:'Priya Kapoor',pl:'initiate',si:'Jan 2025',ss:156,g:'Merkaba',st:'active'},{n:'Marcus Lang',pl:'free',si:'Apr 2025',ss:3,g:'Flower of Life',st:'churned'}];
+const AFFS=[{n:'Luna Hartwell',c:'luna33',r:84,a:71,m:'$312',t:'$1,840'},{n:'Star Body Wellness',c:'starbody',r:62,a:55,m:'$242',t:'$2,100'},{n:'Sacred Sounds',c:'sacredsnd',r:41,a:36,m:'$158',t:'$890'},{n:'Awakened Path',c:'awakened',r:38,a:30,m:'$132',t:'$620'},{n:'Crystal Oracle',c:'crystal_o',r:29,a:24,m:'$105',t:'$440'}];
+const SEQS={on:[{n:1,t:'Welcome to Luminary ✦',m:'Sent immediately',o:'71%',c:'44%'},{n:2,t:'Your First Sacred Geometry Session',m:'Day 1 · 6 hours after signup',o:'68%',c:'52%'},{n:3,t:'The Science of Healing Frequencies',m:'Day 3 · morning',o:'55%',c:'38%'},{n:4,t:'Upgrade & Unlock All 8 Geometries',m:'Day 5 · soft prompt',o:'49%',c:'21%'},{n:5,t:'Your 7-Day Trial Ends Tomorrow',m:'Day 6 · urgency',o:'63%',c:'34%'}],tr:[{n:1,t:'Trial Expiring in 24 Hours ✦',m:'Day 6 of trial',o:'69%',c:'38%'},{n:2,t:'What Happens When Your Trial Ends',m:'Day 7 · 8am',o:'55%',c:'24%'},{n:3,t:'Special Offer: 20% Off First Month',m:'Day 8 · if not converted',o:'52%',c:'31%'}],du:[{n:1,t:'Payment Issue — Action Required',m:'Immediately on failed charge',o:'74%',c:'62%'},{n:2,t:'We Were Unable to Process Your Payment',m:'+48 hours',o:'58%',c:'44%'},{n:3,t:'Final Notice — Account Pausing',m:'+96 hours',o:'51%',c:'38%'}]};
+const AUTOS=[{i:'📧',n:'WELCOME EMAIL',d:'Triggers on new free signup. Personalised welcome with chosen geometry.',on:true},{i:'⏰',n:'DAILY MEDITATION REMINDER',d:'Push notification + email at user-configured time each day.',on:true},{i:'📈',n:'UPGRADE PROMPT AT 5 SESSIONS',d:'Soft upgrade CTA when free member completes 5 sessions.',on:true},{i:'💳',n:'DUNNING — FAILED PAYMENT',d:'3-step email sequence on payment failure before account suspension.',on:true},{i:'🎂',n:'MEMBER BIRTHDAY GREETING',d:'Personalised birthday email with 1-month free gift offer.',on:true},{i:'😴',n:'RE-ENGAGEMENT AFTER 7 DAYS INACTIVE',d:'Sends "We miss you" email with curated geometry suggestion.',on:true},{i:'🔗',n:'AFFILIATE SIGNUP CONFIRMATION',d:'Welcome sequence for new affiliates with link, assets and commission schedule.',on:true},{i:'🌕',n:'FULL MOON CEREMONY INVITE',d:'Monthly email to Adept & Master members inviting them to live group ceremony.',on:true},{i:'📊',n:'MONTHLY PROGRESS DIGEST',d:'Personalised session stats, streaks and geometry breakdown sent monthly.',on:false}];
+const SCHED=[{t:'06:00',cnt:'143',g:"Metatron's Cube",f:'528 Hz',st:'✅ 141'},{t:'07:00',cnt:'89',g:'Flower of Life',f:'432 Hz',st:'✅ 88'},{t:'08:00',cnt:'204',g:"Metatron's Cube",f:'963 Hz',st:'⏳ Pending'},{t:'12:00',cnt:'67',g:'Sri Yantra',f:'528 Hz',st:'⏳ Pending'},{t:'18:00',cnt:'312',g:'Torus Field',f:'396 Hz',st:'⏳ Pending'},{t:'21:00',cnt:'189',g:'Merkaba',f:'852 Hz',st:'⏳ Pending'}];
+
+function render(id){
+  if(id==='dashboard'){
+    spark();
+    bc('geo-chart',[{l:"Metatron",v:38,d:'38%'},{l:"Flower",v:24,d:'24%',c:'linear-gradient(90deg,#a78bfa,#c4b5fd)'},{l:"Torus",v:16,d:'16%',c:'linear-gradient(90deg,#00d4ff,#67e8f9)'},{l:"Sri Yantra",v:11,d:'11%',c:'linear-gradient(90deg,#ff4d6d,#ffa0b4)'},{l:"Other",v:11,d:'11%',c:'rgba(255,255,255,0.15)'}]);
+    bc('freq-chart',[{l:"528 Hz",v:41,d:'41%',c:'linear-gradient(90deg,#00e87a,#6ee7b7)'},{l:"432 Hz",v:28,d:'28%'},{l:"963 Hz",v:14,d:'14%',c:'linear-gradient(90deg,#a78bfa,#c4b5fd)'},{l:"396 Hz",v:9,d:'9%',c:'linear-gradient(90deg,#00d4ff,#67e8f9)'},{l:"Other",v:8,d:'8%',c:'rgba(255,255,255,0.15)'}]);
+    bc('plan-chart',[{l:"Initiate",v:558,c:'linear-gradient(90deg,#00d4ff,#67e8f9)'},{l:"Free",v:547,c:'rgba(255,255,255,0.12)'},{l:"Adept",v:142,c:'linear-gradient(90deg,#a78bfa,#c4b5fd)'},{l:"Master",v:48,c:'linear-gradient(90deg,#ffb830,#fde87a)'}]);
+    const tb=document.getElementById('signup-tb');if(tb)tb.innerHTML=SUPS.map(r=>`<tr><td>${r.name}</td><td><span class="pill p-${r.plan}">${r.plan.toUpperCase()}</span></td><td style="font-style:italic;">${r.src}</td><td><span class="pill p-${r.st}">${r.st}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:.72rem;">${r.t}</td></tr>`).join('');
+  } else if(id==='subscribers'){
+    const tb=document.getElementById('subs-tb');if(tb)tb.innerHTML=SUBS.map((r,i)=>`<tr><td style="color:var(--t3);font-family:'JetBrains Mono',monospace;">${i+1}</td><td>${r.n}</td><td><span class="pill p-${r.pl}">${r.pl.toUpperCase()}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:.72rem;">${r.si}</td><td style="font-family:'JetBrains Mono',monospace;">${r.ss}</td><td style="font-style:italic;">${r.g}</td><td><span class="pill p-${r.st}">${r.st}</span></td></tr>`).join('');
+  } else if(id==='affiliates'){
+    const tb=document.getElementById('aff-tb');if(tb)tb.innerHTML=AFFS.map((r,i)=>`<tr><td style="font-size:1rem;">${['🥇','🥈','🥉','④','⑤'][i]}</td><td>${r.n}</td><td style="font-family:'JetBrains Mono',monospace;color:var(--cyan);">${r.c}</td><td style="font-family:'JetBrains Mono',monospace;">${r.r}</td><td style="font-family:'JetBrains Mono',monospace;">${r.a}</td><td style="font-family:'JetBrains Mono',monospace;color:var(--emerald);">${r.m}</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gold-l);">${r.t}</td></tr>`).join('');
+  } else if(id==='sequences'){
+    ['on','tr','du'].forEach(k=>{const el=document.getElementById('seq-'+k);if(el)el.innerHTML=SEQS[k].map(s=>`<div class="seq-item"><div class="seq-n">${s.n}</div><div><div class="seq-title">${s.t}</div><div class="seq-meta">${s.m}</div><div class="seq-stats"><span class="seq-stat">Open: ${s.o}</span><span class="seq-stat" style="color:var(--gold);">Click: ${s.c}</span></div></div></div>`).join('');});
+  } else if(id==='automations'){
+    const el=document.getElementById('auto-list');if(el)el.innerHTML=AUTOS.map((a,i)=>`<div class="auto-item"><div class="auto-icon">${a.i}</div><div style="flex:1;"><div class="auto-name">${a.n}</div><div class="auto-desc">${a.d}</div></div><label class="toggle"><input type="checkbox" ${a.on?'checked':''} onchange="AUTOS[${i}].on=this.checked"><span class="tog-sl"></span></label></div>`).join('');
+  } else if(id==='scheduler'){
+    bc('sched-chart',[{l:'6am',v:143},{l:'7am',v:89,c:'linear-gradient(90deg,#c9a84c,#f0cc60)'},{l:'8am',v:204,c:'linear-gradient(90deg,#a78bfa,#c4b5fd)'},{l:'Noon',v:67,c:'linear-gradient(90deg,#00d4ff,#67e8f9)'},{l:'6pm',v:312,c:'linear-gradient(90deg,#ff4d6d,#ffa0b4)'},{l:'9pm',v:189}]);
+    const tb=document.getElementById('sched-tb');if(tb)tb.innerHTML=SCHED.map(r=>`<tr><td style="font-family:'JetBrains Mono',monospace;color:var(--gold-l);">${r.t}</td><td style="font-family:'JetBrains Mono',monospace;">${r.cnt}</td><td style="font-style:italic;">${r.g}</td><td style="color:var(--cyan);">${r.f}</td><td>${r.st}</td></tr>`).join('');
+  }
+}
+function genLink(){const code=document.getElementById('aff-code').value.trim().toLowerCase().replace(/\s+/g,'_')||'partner';const link=`https://luminary.app/?ref=${code}&utm_source=affiliate&utm_medium=referral&utm_campaign=${code}`;const out=document.getElementById('aff-out');out.textContent=link;out.style.display='block';}
+render('dashboard');
+</script>
+</body>
+</html>
