@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMINARY — Sacred Geometry Meditation Platform</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@300;400&family=Cinzel:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English+SC&display=swap');
+:root{
+  --void:#010206;--abyss:#04060e;--deep:#070d1c;--surface:#0c1428;--raised:#111e36;
+  --gold:#c9a84c;--gold-l:#f0cc60;--gold-xl:#fde87a;--gold-d:#7a5520;--gold-dim:rgba(201,168,76,0.08);
+  --violet:#6d28d9;--violet-l:#9d6fff;--violet-xl:#c4b5fd;
+  --cyan:#00d4ff;--emerald:#00e87a;--rose:#ff4d6d;--amber:#ffb830;
+  --text:#ede8e0;--t2:rgba(237,232,224,0.62);--t3:rgba(237,232,224,0.3);
+  --border:rgba(201,168,76,0.1);--bh:rgba(201,168,76,0.35);
+}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--void);color:var(--text);font-family:'Cormorant Garamond',serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.2);}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:17px 52px;background:rgba(1,2,6,0.72);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nlogo{font-family:'Cinzel Decorative',serif;font-size:0.9rem;letter-spacing:0.22em;color:var(--gold-xl);text-shadow:0 0 30px rgba(201,168,76,0.5);}
+.nlinks{display:flex;gap:26px;align-items:center;}
+.nlinks a{font-family:'Cinzel',serif;font-size:0.54rem;letter-spacing:0.22em;color:var(--t3);text-decoration:none;transition:color .25s;}
+.nlinks a:hover{color:var(--gold);}
+.ncta{background:linear-gradient(135deg,var(--gold),var(--gold-d))!important;color:var(--void)!important;padding:8px 22px;border-radius:40px;font-weight:600!important;box-shadow:0 0 22px rgba(201,168,76,0.2);transition:all .3s!important;}
+.ncta:hover{transform:translateY(-1px);box-shadow:0 4px 30px rgba(201,168,76,0.4)!important;}
+
+/* HERO */
+#hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 24px 80px;}
+.h-badge{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(201,168,76,0.2);border-radius:40px;padding:5px 16px;margin-bottom:28px;font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.26em;color:var(--gold);background:rgba(201,168,76,0.04);}
+.h-dot{width:5px;height:5px;border-radius:50%;background:var(--emerald);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.h-sigil{font-size:clamp(4rem,10vw,7.5rem);filter:drop-shadow(0 0 50px rgba(201,168,76,0.5)) drop-shadow(0 0 100px rgba(109,40,217,0.2));animation:flt 8s ease-in-out infinite;margin-bottom:18px;display:block;}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.h-title{font-family:'Cinzel Decorative',serif;font-weight:300;font-size:clamp(2.5rem,8vw,6rem);line-height:1.06;color:var(--gold-l);text-shadow:0 0 100px rgba(201,168,76,0.35);margin-bottom:8px;}
+.h-sub{font-family:'IM Fell English SC',serif;font-style:italic;font-size:clamp(1rem,2.2vw,1.4rem);color:var(--t2);max-width:600px;margin:0 auto 18px;line-height:1.7;}
+.h-quote{font-family:'IM Fell English SC',serif;font-style:italic;font-size:clamp(.9rem,1.7vw,1.05rem);color:rgba(201,168,76,0.55);max-width:500px;margin:0 auto 44px;line-height:1.78;border-left:1px solid rgba(201,168,76,0.25);padding-left:16px;text-align:left;}
+
+/* EMAIL CAPTURE */
+.capture{max-width:480px;width:100%;margin:0 auto;}
+.capture-form{display:flex;border:1px solid rgba(201,168,76,0.35);border-radius:60px;overflow:hidden;box-shadow:0 0 60px rgba(201,168,76,0.1);}
+.capture-form input{flex:1;background:rgba(4,6,14,0.9);border:none;outline:none;padding:15px 24px;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:1rem;}
+.capture-form input::placeholder{color:var(--t3);}
+.capture-form button{background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;padding:15px 26px;color:var(--void);font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;cursor:pointer;white-space:nowrap;transition:opacity .2s;}
+.capture-form button:hover{opacity:0.88;}
+.capture-note{text-align:center;margin-top:12px;font-size:0.8rem;color:var(--t3);font-style:italic;}
+
+/* STATS */
+.h-stats{display:flex;gap:52px;justify-content:center;flex-wrap:wrap;margin-top:64px;padding-top:44px;border-top:1px solid rgba(201,168,76,0.09);}
+.stat-n{font-family:'Cinzel Decorative',serif;font-size:2rem;color:var(--gold-l);display:block;line-height:1;}
+.stat-l{font-family:'Cinzel',serif;font-size:0.5rem;letter-spacing:0.26em;color:var(--t3);margin-top:4px;display:block;}
+
+/* TICKER */
+.ticker{position:relative;z-index:1;overflow:hidden;padding:9px 0;background:rgba(109,40,217,0.04);border-top:1px solid rgba(109,40,217,0.1);border-bottom:1px solid rgba(109,40,217,0.1);}
+.ticker-t{display:flex;gap:44px;white-space:nowrap;animation:tick 40s linear infinite;}
+.ticker-i{font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.2em;color:var(--violet-xl);opacity:0.55;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{position:relative;z-index:1;padding:96px 24px;}
+.sc{text-align:center;max-width:700px;margin:0 auto;}
+.eye{font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.36em;color:var(--gold);opacity:.65;margin-bottom:12px;display:block;}
+.sh2{font-family:'Cinzel',serif;font-weight:300;font-size:clamp(1.6rem,3.8vw,2.8rem);color:var(--gold-l);letter-spacing:.07em;margin-bottom:13px;line-height:1.2;}
+.sp{font-family:'IM Fell English SC',serif;font-style:italic;font-size:1rem;color:var(--t2);line-height:1.82;}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;max-width:1100px;margin:58px auto 0;}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 24px;transition:all .3s;position:relative;overflow:hidden;}
+.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2),transparent);opacity:0;transition:opacity .3s;}
+.feat:hover{border-color:var(--bh);transform:translateY(-4px);box-shadow:0 10px 40px rgba(0,0,0,0.4);}
+.feat:hover::before{opacity:1;}
+.feat-icon{font-size:2rem;margin-bottom:14px;}
+.feat-title{font-family:'Cinzel',serif;font-size:0.66rem;letter-spacing:0.15em;color:var(--gold);margin-bottom:8px;}
+.feat-desc{font-size:0.9rem;color:var(--t2);font-style:italic;line-height:1.65;}
+
+/* PRICING */
+#pricing{background:rgba(4,2,12,0.5);}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;max-width:1060px;margin:58px auto 0;align-items:start;}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px 28px;text-align:center;position:relative;overflow:hidden;transition:all .35s;}
+.price-card:hover{transform:translateY(-4px);}
+.price-card.feat-plan{border-color:var(--gold);background:rgba(12,20,40,0.95);box-shadow:0 0 80px rgba(201,168,76,0.14);transform:scale(1.04);}
+.price-card.feat-plan:hover{transform:scale(1.04) translateY(-4px);}
+.price-card.master-plan{border-color:rgba(255,184,48,0.35);background:linear-gradient(160deg,rgba(12,20,40,.95),rgba(28,16,6,.7));}
+.price-glow{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:120px;height:70px;background:radial-gradient(ellipse,rgba(201,168,76,0.2),transparent 70%);pointer-events:none;}
+.price-badge{position:absolute;top:13px;right:13px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--void);font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.14em;padding:3px 10px;border-radius:20px;}
+.price-tier{font-family:'Cinzel',serif;font-size:0.6rem;letter-spacing:0.3em;color:var(--gold);margin-bottom:12px;opacity:.8;}
+.price-amt{font-family:'Cinzel Decorative',serif;font-size:2.8rem;color:var(--gold-l);line-height:1;}
+.price-amt sup{font-size:1rem;vertical-align:super;}
+.price-period{font-size:0.78rem;color:var(--t3);margin-bottom:20px;}
+.price-div{border:none;border-top:1px solid rgba(201,168,76,0.1);margin:18px 0;}
+.price-feats{list-style:none;margin-bottom:24px;text-align:left;}
+.price-feats li{padding:6px 0;font-size:0.88rem;color:var(--t2);font-style:italic;display:flex;gap:8px;align-items:flex-start;line-height:1.4;}
+.price-feats li::before{content:'✦';color:var(--gold);font-size:0.58rem;margin-top:3px;flex-shrink:0;}
+.price-feats li.no{opacity:.28;}
+.price-feats li.no::before{content:'—';color:var(--t3);}
+.price-btn{width:100%;padding:12px;border-radius:50px;font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.14em;cursor:pointer;border:1px solid var(--gold);background:transparent;color:var(--gold);transition:all .3s;}
+.price-btn:hover{background:var(--gold-dim);}
+.price-card.feat-plan .price-btn,.price-card.master-plan .price-btn{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--void);border-color:transparent;box-shadow:0 4px 20px rgba(201,168,76,0.28);}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;max-width:1060px;margin:58px auto 0;}
+.testi{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;}
+.testi-stars{color:var(--gold);font-size:0.72rem;letter-spacing:3px;margin-bottom:10px;}
+.testi-txt{font-family:'IM Fell English SC',serif;font-style:italic;font-size:0.94rem;color:var(--text);line-height:1.75;margin-bottom:16px;}
+.testi-txt::before{content:'"';color:var(--gold);font-size:2rem;line-height:0;vertical-align:-.4em;margin-right:4px;}
+.testi-name{font-family:'Cinzel',serif;font-size:0.58rem;letter-spacing:0.15em;color:var(--gold);}
+.testi-role{font-size:0.76rem;color:var(--t3);margin-top:2px;font-style:italic;}
+
+/* AFFILIATE */
+.aff-box{max-width:580px;margin:56px auto 0;background:rgba(109,40,217,0.08);border:1px solid rgba(109,40,217,0.22);border-radius:20px;padding:40px;text-align:center;}
+.aff-pct{font-family:'Cinzel Decorative',serif;font-size:3rem;color:var(--cyan);display:block;margin-bottom:4px;}
+.aff-label{font-family:'Cinzel',serif;font-size:0.52rem;letter-spacing:0.18em;color:var(--t3);margin-bottom:16px;}
+
+/* CTA */
+.cta-block{position:relative;z-index:1;margin:0 28px 72px;border-radius:20px;padding:64px 40px;background:linear-gradient(145deg,rgba(109,40,217,0.18),rgba(7,13,28,0.95),rgba(1,2,6,.98));border:1px solid rgba(109,40,217,0.18);text-align:center;}
+.cta-block h2{font-family:'Cinzel Decorative',serif;font-weight:300;font-size:clamp(1.5rem,3.8vw,2.5rem);color:var(--gold-l);margin-bottom:10px;}
+.cta-block p{font-family:'IM Fell English SC',serif;font-style:italic;color:var(--t2);max-width:460px;margin:0 auto 28px;line-height:1.75;}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;z-index:500;background:rgba(1,2,6,.95);backdrop-filter:blur(14px);align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal-box{background:var(--surface);border:1px solid rgba(201,168,76,0.22);border-radius:20px;padding:42px;max-width:400px;width:90%;text-align:center;position:relative;}
+.modal-x{position:absolute;top:13px;right:16px;background:none;border:none;color:var(--t3);font-size:1.3rem;cursor:pointer;}
+.modal-box h2{font-family:'Cinzel',serif;font-weight:300;font-size:1.25rem;color:var(--gold-l);margin-bottom:5px;}
+.modal-box p{font-style:italic;color:var(--t2);line-height:1.6;margin-bottom:20px;font-size:.9rem;}
+.modal-box input{width:100%;background:rgba(4,6,14,.8);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'Cormorant Garamond',serif;font-size:.95rem;outline:none;margin-bottom:8px;transition:border-color .2s;}
+.modal-box input:focus{border-color:var(--gold);}
+.modal-sub{width:100%;padding:11px;background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;border-radius:50px;color:var(--void);font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.13em;cursor:pointer;}
+.modal-success{display:none;}
+.modal-success p{font-style:italic;color:var(--gold-l);line-height:1.6;}
+
+footer{position:relative;z-index:1;padding:40px 48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+.f-logo{font-family:'Cinzel Decorative',serif;font-size:.88rem;color:var(--gold);}
+.f-links{display:flex;gap:22px;flex-wrap:wrap;}
+.f-links a{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.15em;color:var(--t3);text-decoration:none;transition:color .2s;}
+.f-links a:hover{color:var(--gold);}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s;}.reveal.vis{opacity:1;transform:none;}
+@media(max-width:580px){#nav{padding:13px 18px;}.nlinks a:not(.ncta){display:none;}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<nav id="nav">
+  <div class="nlogo">✦ LUMINARY</div>
+  <div class="nlinks">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#affiliate">Affiliates</a>
+    <a href="#pricing" class="ncta" onclick="openModal(event)">Begin Free ✦</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="h-badge"><div class="h-dot"></div>SACRED GEOMETRY · HEALING FREQUENCIES · MEDITATION</div>
+  <span class="h-sigil">✦</span>
+  <h1 class="h-title">LUMINARY</h1>
+  <p class="h-sub">Meditate at the Frequency of Creation. Living sacred geometry, Solfeggio healing tones, binaural beats — in your browser, right now.</p>
+  <blockquote class="h-quote">"What is Below corresponds to what is Above, to accomplish the miracle of the One Thing."<br><br>— The Emerald Tablet</blockquote>
+  <div class="capture">
+    <form class="capture-form" onsubmit="captureEmail(event)">
+      <input type="email" id="hero-email" placeholder="Enter your email for free access…" required>
+      <button type="submit">BEGIN FREE ✦</button>
+    </form>
+    <p class="capture-note">Free tier forever · No card required · 7-day premium trial</p>
+  </div>
+  <div class="h-stats">
+    <div class="stat-item"><span class="stat-n" data-to="14800">0</span><span class="stat-l">SOULS AWAKENED</span></div>
+    <div class="stat-item"><span class="stat-n" data-to="8">0</span><span class="stat-l">SACRED GEOMETRIES</span></div>
+    <div class="stat-item"><span class="stat-n" data-to="10">0</span><span class="stat-l">SOLFEGGIO TONES</span></div>
+    <div class="stat-item"><span class="stat-n" data-to="97">0</span><span class="stat-l">% SATISFACTION</span></div>
+  </div>
+</section>
+
+<div class="ticker"><div class="ticker-t" id="ticker"></div></div>
+
+<section id="features">
+  <div class="sc reveal">
+    <span class="eye">✦ WHAT YOU RECEIVE ✦</span>
+    <h2 class="sh2">Ancient Wisdom. Modern Technology.</h2>
+    <p class="sp">Every session is a living portal — sacred geometry that breathes, tones that heal at the cellular level, frequencies calibrated to universal harmonics.</p>
+  </div>
+  <div class="feat-grid reveal" id="feat-grid"></div>
+</section>
+
+<section id="pricing">
+  <div class="sc reveal">
+    <span class="eye">✦ SACRED INVESTMENT ✦</span>
+    <h2 class="sh2">Four Paths of Initiation</h2>
+    <p class="sp">Every tier includes a 7-day free trial. Upgrade, downgrade or cancel at any moment — your practice is always yours.</p>
+  </div>
+  <div class="price-grid reveal" id="price-grid"></div>
+  <p style="text-align:center;margin-top:26px;font-size:.8rem;color:var(--t3);font-style:italic;position:relative;z-index:1;">💳 Stripe · SSL · 30-day money-back guarantee · Cancel anytime</p>
+</section>
+
+<section>
+  <div class="sc reveal">
+    <span class="eye">✦ FROM THE COMMUNITY ✦</span>
+    <h2 class="sh2">Transformed Lives</h2>
+  </div>
+  <div class="testi-grid reveal" id="testi-grid"></div>
+</section>
+
+<section id="affiliate">
+  <div class="sc reveal">
+    <span class="eye">✦ SACRED PARTNERSHIP ✦</span>
+    <h2 class="sh2">Share the Light. Earn Beautifully.</h2>
+    <p class="sp">Join our affiliate circle and receive generous recurring commissions for every soul you guide to Luminary.</p>
+  </div>
+  <div class="aff-box reveal">
+    <span class="aff-pct">40%</span>
+    <div class="aff-label">RECURRING COMMISSION · FOR LIFE OF SUBSCRIBER</div>
+    <p style="font-style:italic;color:var(--t2);margin-bottom:20px;line-height:1.7;">Share your unique sacred link. Every subscriber you bring earns you 40% of their monthly fee — recurring, for as long as they stay. Average affiliate earns $340/month.</p>
+    <button class="price-btn" style="max-width:240px;margin:0 auto;display:block;" onclick="openModal(event)">JOIN THE AFFILIATE CIRCLE</button>
+  </div>
+</section>
+
+<div class="cta-block reveal">
+  <h2>Begin Your Awakening Tonight</h2>
+  <p>The geometry is waiting. The frequency is ready. The only step left is yours.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <button onclick="openModal(event)" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));color:var(--void);border:none;padding:14px 32px;border-radius:50px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;cursor:pointer;box-shadow:0 4px 24px rgba(201,168,76,.3);">START FREE — NO CARD NEEDED ✦</button>
+    <button onclick="document.getElementById('pricing').scrollIntoView()" style="background:transparent;color:var(--violet-xl);border:1px solid rgba(109,40,217,.4);padding:14px 32px;border-radius:50px;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.15em;cursor:pointer;">VIEW PREMIUM PLANS</button>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">✦ LUMINARY</div>
+  <div class="f-links">
+    <a href="sacred-meditation.html">Meditation App</a>
+    <a href="quantum-hermeticism.html">Quantum Hermeticism</a>
+    <a href="admin.html">Admin ↗</a>
+  </div>
+</footer>
+
+<div class="modal-bg" id="modal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div id="m-icon" style="font-size:2.3rem;margin-bottom:9px;">✦</div>
+    <h2 id="m-title">Begin Your Journey</h2>
+    <p id="m-desc">Activate your free Luminary account. No card required.</p>
+    <div id="m-form">
+      <input type="text" id="mn" placeholder="Your name">
+      <input type="email" id="me" placeholder="Your email address">
+      <button class="modal-sub" onclick="submitModal()">ACTIVATE NOW ✦</button>
+    </div>
+    <div class="modal-success" id="m-success">
+      <div style="font-size:2.5rem;margin-bottom:12px;">🌟</div>
+      <p>Welcome to Luminary. Check your email for your sacred access link.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(()=>{const c=document.getElementById('bg'),x=c.getContext('2d');let W,H,pts=[];
+function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;pts=[];for(let i=0;i<100;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.1,vy:(Math.random()-.5)*.1,r:Math.random()*1.2+.2,a:Math.random()*.45+.05,hue:Math.random()>0.8?270:45});}
+function draw(){x.clearRect(0,0,W,H);const g=x.createRadialGradient(W/2,H*.3,0,W/2,H*.6,H);g.addColorStop(0,'#09051e');g.addColorStop(.4,'#04060f');g.addColorStop(1,'#010206');x.fillStyle=g;x.fillRect(0,0,W,H);
+pts.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=`hsla(${p.hue},70%,70%,${p.a})`;x.fill();pts.slice(i+1).forEach(q=>{const d=Math.hypot(p.x-q.x,p.y-q.y);if(d<100){x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.strokeStyle=`rgba(201,168,76,${0.035*(1-d/100)})`;x.lineWidth=.4;x.stroke();}});});requestAnimationFrame(draw);}
+window.addEventListener('resize',resize);resize();draw();})();
+
+const tw=['Metatron\'s Cube','528 Hz Miracle Tone','Flower of Life','432 Hz Universal Harmony','Torus Field','963 Hz Divine Consciousness','Sri Yantra','Binaural Beats','Golden Spiral','Merkaba Light Body','Vesica Piscis','Platonic Solids','Quantum Hermeticism','The Kybalion','As Above So Below'];
+const ti=document.getElementById('ticker');ti.innerHTML=[...tw,...tw,...tw,...tw].map(w=>`<span class="ticker-i">✦ ${w.toUpperCase()}</span>`).join('');
+
+setTimeout(()=>{document.querySelectorAll('[data-to]').forEach(el=>{const target=+el.dataset.to;let cur=0;const step=target/70;const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=target>100?Math.round(cur).toLocaleString():Math.round(cur);if(cur>=target)clearInterval(t);},22);});},400);
+
+const FEATS=[
+  {icon:'🔯',title:'8 SACRED GEOMETRIES',desc:"Metatron's Cube, Flower of Life, Sri Yantra, Torus Field, Merkaba, Vesica Piscis, Golden Spiral and Platonic Solids — all animated and living."},
+  {icon:'🎵',title:'SOLFEGGIO FREQUENCIES',desc:'174 Hz through 963 Hz — the complete Solfeggio scale plus 432 Hz and 528 Hz Miracle Tone, with adjustable binaural beat offset.'},
+  {icon:'🧠',title:'BINAURAL BEATS',desc:'Dual-channel stereo tones create healing brainwave entrainment. Delta, Theta, Alpha and Gamma states on demand.'},
+  {icon:'☿',title:'QUANTUM HERMETICISM',desc:'The 7 Hermetic Principles mapped to quantum physics. Each with its sacred geometry, healing frequency, and activation practice.'},
+  {icon:'⏱',title:'SESSION SCHEDULER',desc:'Set your intention, geometry, and frequency — your session is waiting at your chosen time every day.'},
+  {icon:'📊',title:'PROGRESS TRACKING',desc:'Log streaks, total session minutes, favourite geometries and mood tracking. Watch your practice deepen.'},
+];
+const fg=document.getElementById('feat-grid');FEATS.forEach(f=>{fg.innerHTML+=`<div class="feat"><div class="feat-icon">${f.icon}</div><div class="feat-title">${f.title}</div><div class="feat-desc">${f.desc}</div></div>`;});
+
+const PLANS=[
+  {tier:'SEEKER',price:'0',period:'forever free',feat:false,master:false,badge:null,
+   feats:['Metatron\'s Cube & Flower of Life','Sri Yantra resonator','3 Solfeggio frequencies','Basic binaural beats',{no:'All 8 geometries'},{no:'Session scheduler'},{no:'12-week curriculum'},{no:'Quantum Hermeticism module'}],btn:'BEGIN FREE JOURNEY'},
+  {tier:'INITIATE',price:'11',period:'per month',feat:true,master:false,badge:'MOST POPULAR',
+   feats:['All 8 sacred geometries','Full 10-frequency Solfeggio suite','Advanced binaural beat control','Daily session scheduler','Streak & progress tracking','Quantum Hermeticism module',{no:'Group ceremony rooms'},{no:'DNA activation protocol'}],btn:'START 7-DAY FREE TRIAL'},
+  {tier:'ADEPT',price:'33',period:'per month · or $297/year',feat:false,master:false,badge:null,
+   feats:['Everything in Initiate','Full 12-week curriculum','DNA activation 21-day protocol','Pineal gland activation sequence','Monthly live ceremony','Affiliate program — 40% recurring',{no:'Group ceremony rooms'}],btn:'BEGIN YOUR MASTERY'},
+  {tier:'MASTER',price:'111',period:'per month · or $888/year',feat:false,master:true,badge:null,
+   feats:['Everything in Adept','Group ceremony rooms (host 40)','Schumann resonance sync tool','1:1 monthly session with teacher','Private Master community','Affiliate commission 50% recurring','Annual sacred retreat invitation'],btn:'ENTER THE MASTER PATH'},
+];
+const pg=document.getElementById('price-grid');
+PLANS.forEach(p=>{
+  const feats=p.feats.map(f=>typeof f==='object'?`<li class="no">${f.no}</li>`:`<li>${f}</li>`).join('');
+  pg.innerHTML+=`<div class="price-card ${p.feat?'feat-plan':''} ${p.master?'master-plan':''}">
+    ${p.feat||p.master?'<div class="price-glow"></div>':''}
+    ${p.badge?`<div class="price-badge">${p.badge}</div>`:''}
+    <div class="price-tier">${p.tier}</div>
+    <div class="price-amt">${p.price==='0'?'FREE':'<sup>$</sup>'+p.price}</div>
+    <div class="price-period">${p.period}</div>
+    <hr class="price-div">
+    <ul class="price-feats">${feats}</ul>
+    <button class="price-btn" onclick="openModal(event,'${p.tier.toLowerCase()}')">${p.btn}</button>
+  </div>`;
+});
+
+const TESTIS=[
+  {stars:'★★★★★',txt:'The 528 Hz + Metatron\'s Cube session every morning has completely changed how I move through my day. Nothing else compares.',name:'SARAH K.',role:'Yoga teacher, Cornwall'},
+  {stars:'★★★★★',txt:'Within a week of the theta wave sessions I\'m sleeping deeper than in a decade. My anxiety has almost vanished.',name:'MARCUS T.',role:'Software engineer, Berlin'},
+  {stars:'★★★★★',txt:'As a sound healer I\'ve tried everything. The binaural controls here are the most sophisticated I\'ve found in a browser.',name:'PRIYA M.',role:'Sound healer & therapist, Glastonbury'},
+  {stars:'★★★★★',txt:'The Quantum Hermeticism module is extraordinary. The Seven Principles decoded through quantum physics changed my entire worldview.',name:'TOBIAS R.',role:'Retreat facilitator, Bali'},
+  {stars:'★★★★★',txt:'The affiliate program is genuinely generous. I earn over $400/month passively sharing something I genuinely love.',name:'LUNA H.',role:'Wellness creator, 22k subscribers'},
+  {stars:'★★★★★',txt:'My 8-year-old daughter and I do the Flower of Life meditation together every evening. She says it makes her feel like she\'s swimming in gold light.',name:'CHEN W.',role:'Mother, musician, Beijing'},
+];
+const tg=document.getElementById('testi-grid');TESTIS.forEach(t=>{tg.innerHTML+=`<div class="testi"><div class="testi-stars">${t.stars}</div><div class="testi-txt">${t.txt}</div><div class="testi-name">${t.name}</div><div class="testi-role">${t.role}</div></div>`;});
+
+const STRIPE_LINKS={initiate:'https://buy.stripe.com/6oU5kD2c37R3dWq26N2VG00',adept:'https://buy.stripe.com/28EcN56sjdbn9Ga3aR2VG01',master:'https://buy.stripe.com/fZu3cvdULefrf0ucLr2VG03'};
+let curPlan='free';
+function openModal(e,plan){if(e)e.preventDefault();curPlan=plan||'free';const cfg={free:{icon:'✦',title:'Begin Your Journey',desc:'Activate your free Luminary account. No card required.'},initiate:{icon:'✨',title:'Start 7-Day Free Trial',desc:'Full access to Initiate tier. Cancel before Day 7 — pay nothing.'},adept:{icon:'🔮',title:'Begin Your Mastery',desc:'Full Adept access. 7-day free trial included.'},master:{icon:'🌟',title:'Enter the Master Path',desc:'The complete Luminary experience. 7-day trial included.'}};const c=cfg[curPlan]||cfg.free;document.getElementById('m-icon').textContent=c.icon;document.getElementById('m-title').textContent=c.title;document.getElementById('m-desc').textContent=c.desc;document.getElementById('m-form').style.display='block';document.getElementById('m-success').style.display='none';document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+function submitModal(){const email=document.getElementById('me').value;if(!email){alert('Please enter your email.');return;}const leads=JSON.parse(localStorage.getItem('lum_leads')||'[]');leads.push({name:document.getElementById('mn').value,email,plan:curPlan,ts:Date.now()});localStorage.setItem('lum_leads',JSON.stringify(leads));if(STRIPE_LINKS[curPlan]){window.location.href=STRIPE_LINKS[curPlan]+'?prefilled_email='+encodeURIComponent(email);return;}document.getElementById('m-form').style.display='none';document.getElementById('m-success').style.display='block';}
+function captureEmail(e){e.preventDefault();const email=document.getElementById('hero-email').value;openModal(null,'free');document.getElementById('me').value=email;}
+const params=new URLSearchParams(window.location.search);const ref=params.get('ref');if(ref)localStorage.setItem('lum_ref',ref);
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');}),{threshold:.08});document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
